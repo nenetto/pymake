@@ -1,0 +1,19 @@
+#"""Project {project_name}
+#Author  {author}
+#email   {author_email}
+#"""
+
+# Set python base image
+FROM python:3-stretch
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy files
+COPY . {project_root}/
+
+# Install  internal requirements
+RUN pip install --no-cache-dir  {project_root}/
+
+# Define command to execute
+CMD [ "{project_root}" ]

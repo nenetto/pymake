@@ -1,0 +1,7 @@
+{header}
+
+# Vars file
+# This file contains useful variables for project configuration
+project_vars={
+ {pymakefile_vars}
+}

@@ -1,0 +1,14 @@
+{
+    "project-name": "{project_name}",
+    "project-description": "{project_description}",
+
+    "project-version-major":{project_version_major},
+    "project-version-minor":{project_version_minor},
+
+    "git-repo":"{git_repo}",
+
+    "author": "{author}",
+    "author-email": "{author_email}",
+
+    "docker-tag": ""
+}

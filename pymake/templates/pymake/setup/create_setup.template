@@ -1,0 +1,94 @@
+{header}
+import os
+import sys
+import subprocess
+import glob
+from pprint import pformat
+import pipreqs
+import pkg_resources
+from {project_name_package}.project_vars import project_vars
+
+print('[{0}] Configuring setup for project'.format(project_vars['project-name']))
+
+# Read pymake folder
+print('[{0}] Reading pymake folder'.format(project_vars['project-name']))
+pymake_path = os.path.abspath(os.path.join(os.path.abspath(os.path.join(__file__, os.pardir)), os.pardir))
+
+# main package folder
+package_path = os.path.abspath(os.path.join(pymake_path, os.pardir))
+
+# Configuring Package data
+print('[{0}] Looking for resources'.format(project_vars['project-name']))
+root_path = os.path.abspath(os.path.join(os.path.pardir, os.path.pardir))
+
+
+package_data_list = []
+
+result = [y for x in os.walk(package_path) for y in glob.glob(os.path.join(x[0], '*'))]
+for file in result:
+    if os.path.isfile(file) and ('.py' not in file):
+        path2add = file[(len(package_path) + 1):]
+        if 'pymake/' not in path2add:
+            print(path2add)
+            package_data_list.append(path2add)
+            print('[{0}]    - [{1}]'.format(project_vars['project-name'], os.path.split(file)[-1]))
+
+
+package_data = {'': package_data_list}
+
+
+# Configuring requirements data
+# Create requirements file using pipreqs
+
+FNULL = open(os.devnull, 'w')
+print('[{0}] Looking for requirements'.format(project_vars['project-name']))
+subprocess.check_call(['pipreqs', '--force', '{0}'.format(root_path)], stdout=FNULL, stderr=FNULL)
+requirements_file_path = os.path.join(root_path, 'requirements.txt')
+
+requirements = []
+with open(requirements_file_path, 'r') as f:
+    content = f.readlines()
+
+
+content = [x.strip() for x in content]
+if content != ['']:
+    requirements = requirements + content
+
+for r in requirements:
+    print('[{0}]    - [{1}]'.format(project_vars['project-name'], r))
+
+# Delete requirements file
+os.remove(requirements_file_path)
+
+# Configuring entry point
+print('[{0}] Configuring entry point'.format(project_vars['project-name']))
+project_entry_point = project_vars['project-name'].replace(' ', '_').lower()
+print('[{0}]    - [{1} => {1}.main:main]'.format(project_vars['project-name'], project_entry_point))
+
+
+# Create setup.py
+print('[{0}] Generating setup.py'.format(project_vars['project-name']))
+# If setup.py, delete old
+
+project_path = os.path.abspath(os.path.join(package_path, os.pardir))
+
+setup_file_path = os.path.join(project_path, 'setup.py')
+if os.path.exists(setup_file_path) and os.path.isfile(setup_file_path):
+    print('[{0}] Deleting old setup.py'.format(project_vars['project-name']))
+    os.remove(setup_file_path)
+
+setup_template = pkg_resources.resource_filename(__name__, 'setup.py.template')
+
+# Replacing variables
+print('[{0}] Reading template setup.py'.format(project_vars['project-name']))
+with open(setup_template, 'r') as setup_file:
+    setup_text = setup_file.read()
+
+print('[{0}] Setting variables setup.py'.format(project_vars['project-name']))
+setup_text = setup_text.replace('{package_data}', pformat(package_data))
+setup_text = setup_text.replace('{package_requirements}', str(requirements))
+setup_text = setup_text.replace('{project_entry_point}', project_entry_point)
+
+print('[{0}] Saving setup.py'.format(project_vars['project-name']))
+with open(setup_file_path, 'w') as setup_file:
+    setup_file.write(setup_text)

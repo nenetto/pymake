@@ -43,11 +43,6 @@ Python package for project creation
 
 ### 3. Learn the structure of your project
 
-:open_file_folder: CMakeTemplates
-  - :file_folder: CMakeProject
-  - :file_folder: CMakeSuperBuildTemplate
-  - :page_with_curl:
-
 - :open_file_folder: **[project-name]**
     - :page_with_curl: `README.md`
     - :page_with_curl: `pymakeconfigure.json`
@@ -80,19 +75,19 @@ This means that you have to program something!
 Some important notes:
 
 #### Resources
-To use resource files on your project, you can access your file path using the library *`pkg_resources`* as:
-
-`pkg_resources.resource_filename(__name__, 'resource.txt')`
-
-Note that this will access files from a python module to a file in the same folder. If the resource is in a deeper folder you can use:
-
-`pkg_resources.resource_filename(__name__, 'path/from/module/resource.txt')`
-
-If you want to access files in upper folders, you have to define the name of your project such as:
-
-*`pkg_resources.resource_filename(example_project, 'resource1/resource.txt')`*
-
-** This option can be used anywhere in your code - MAKE SURE THE ROOT PROJECT FOLDER IS IN `sys.path` **
+>To use resource files on your project, you can access your file path using the library **`pkg_resources`** as:
+>
+>`pkg_resources.resource_filename(__name__, 'resource.txt')`
+>
+>Note that this will access files from a python module to a file in the same folder. If the resource is in a deeper folder you can use:
+>
+>`pkg_resources.resource_filename(__name__, 'path/from/module/resource.txt')`
+>
+>If you want to access files in upper folders, you have to define the name of your project such as:
+>
+>**`pkg_resources.resource_filename(example_project, 'resource1/resource.txt')`**
+>
+>**This option can be used anywhere in your code - MAKE SURE THE ROOT PROJECT FOLDER IS IN `sys.path`**
 
 
 ### 5. Prepare your main function
@@ -109,23 +104,23 @@ This script will create the configuration for a docker image creation. **Note** 
 
 #### Docker tag
 
-If you will upload your docker image to an aws repository, make sure your pymakefile.json has the variable **`docker-tag`** set to the repository tag.
+>If you will upload your docker image to an aws repository, make sure your pymakefile.json has the variable **`docker-tag`** set to the repository tag.
 
 #### Create image
 
-To create your local docker image, run the script **`create_image.sh`** as **root**
+>To create your local docker image, run the script **`create_image.sh`** as **root**
 
 #### Test/Run your local image
 
-Run the script **`run_container_local.sh`** as **root**
+>Run the script **`run_container_local.sh`** as **root**
 
 #### Push your docker image to the **aws** repository
 
-Run the script **`aws_push.sh`** as **root**
+>Run the script **`aws_push.sh`** as **root**
     
-**The Dockerfile**
+>**The Dockerfile**
 
-This file is a default that you can modify. It will copy your project folder, install using the `setup.py` and launch your `main` script function
+>This file is a default that you can modify. It will copy your project folder, install using the `setup.py` and launch your `main` script function
 
 ```dockerfile
 #"""Project example_project

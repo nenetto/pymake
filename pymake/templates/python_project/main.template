@@ -1,0 +1,25 @@
+{header}
+import sys
+from {project_name_package}.project_vars import project_vars
+
+
+def main(args=None):
+    """Example of entry point"""
+    if args is None:
+        args = sys.argv[1:]
+
+    """Read the args"""
+    if len(args) > 0:
+        for i in args:
+            print(i)
+
+        first_arg = args[0]
+
+
+    print("This is the main function")
+    print("It should do something interesting....")
+
+
+if __name__ == "__main__":
+    print('Welcome to the project [{0}] created by [{1}]'.format(project_vars['project-name'], project_vars['author']))
+    main()

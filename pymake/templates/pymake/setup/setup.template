@@ -1,0 +1,31 @@
+{header}
+
+from setuptools import setup, find_packages
+# To use a consistent encoding
+from codecs import open
+from os import path
+
+here = path.abspath(path.dirname(__file__))
+
+# Get the long description from the README file
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
+setup(
+    name='{project_name}',
+    version='{project_version_major}.{project_version_minor}',
+    description='{project_description}',
+    long_description=long_description,
+    url='{git_repo}',
+    author='{author}',
+    author_email='{author_email}',
+    packages=find_packages(),
+    include_package_data=True,
+    package_data={package_data},
+    install_requires={package_requirements},
+    entry_points={
+          'console_scripts': [
+              '{project_entry_point} = {project_entry_point}.main:main'
+          ]
+      }
+)
