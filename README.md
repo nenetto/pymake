@@ -1,4 +1,4 @@
-#[pymake v1.0](https://github.com/nenetto/pymake.git)
+# [pymake v1.0](https://github.com/nenetto/pymake.git)
 
 Python package for project creation
 
