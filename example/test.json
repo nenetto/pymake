@@ -1,5 +1,5 @@
 {
-    "project-name": "Example project",
+    "project-name": "CRproject_test",
     "project-description": "Example project description",
 
     "project-version-major":1,
@@ -15,11 +15,7 @@
 
     "configuration":
     {
-      "type": "python",
-      "parent-folder": "/where/to/build/your/project",
-      "packages": {
-        "pack1": {}
-      },
+      "parent-folder": "/Users/nenetto/SBD/Ferrovial/datalab",
       "resource-folders": ["resource1", "resource2"]
     }
 }
