@@ -18,7 +18,7 @@ else
 fi
 
 # Delete all untagged images
-docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)
+docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
 
 # Move to this directory
 sudo -u $real_user cd "$(dirname "$0")"
