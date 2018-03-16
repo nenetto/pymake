@@ -1,0 +1,38 @@
+#"""Project {project_name}
+#Author  {author}
+#email   {author_email}
+#"""
+
+# For more information about this file and used commands, please visit:
+# Check https://cran.r-project.org/bin/linux/ubuntu/README.html for more info about R configuration
+# Check https://www.digitalocean.com/community/tutorials/how-to-install-r-packages-using-devtools-on-ubuntu-16-04
+
+# Set python base image
+FROM ubuntu:latest
+
+# Set author
+LABEL author="{author}"
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install R
+RUN apt-get update -y\
+ && apt-get install apt-utils apt-transport-https -y --no-install-recommends\
+ && apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev -y --no-install-recommends\
+ && apt-get upgrade -y\
+ && apt-get update\
+ && gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E084DAB9\
+ && gpg -a --export E084DAB9 | apt-key add -\
+ && apt-get install r-base -y --no-install-recommends\
+ && apt-get install r-base-dev -y --no-install-recommends\
+ && R -e 'install.packages(c("devtools"), dependencies=TRUE, repos = "http://cran.us.r-project.org")'\
+ && apt update\
+ && apt full-upgrade -y\
+
+# Copy files
+COPY . {project_root}/
+RUN ./{project_root}/install_R_dependencies.sh\
+ && chmod +x main.sh
+
+CMD ["bash", "main.sh"]

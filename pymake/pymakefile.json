@@ -10,5 +10,8 @@
     "author": "E. Marinetto",
     "author-email": "nenetto@gmail.com",
 
-    "docker-tag": ""
+    "docker-tag": "",
+
+    "type-of-project": "python"
+
 }

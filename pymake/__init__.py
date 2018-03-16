@@ -13,7 +13,7 @@ pymake package
 # from package_name import module_name as module_name
 
 # Packages
-from .utils import project, pymakeutils
+from .utils import project_python, pymakeutils
 
 
 # __all__ variable

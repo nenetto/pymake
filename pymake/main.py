@@ -14,6 +14,7 @@ from pprint import pprint
 from pymake.utils.project import create_project
 from pymake.project_vars import project_vars
 
+# TODO Add support to load projects from private repositories and git support
 
 def main(args=None):
     """Example of entry point"""
@@ -40,13 +41,13 @@ def main(args=None):
 
 if __name__ == "__main__":
 
-    #create_project('/Users/nenetto/SBD/Ferrovial/datalab/pymake/utils/pymakeconfigure.json')
-
     logo = pkg_resources.resource_filename(__name__, 'templates/images/logo.txt')
 
     with open(logo, 'r') as f:
         print(f.read())
 
     print('\n'*5 + 'Welcome to the project [{0}] created by [{1}]'.format(project_vars['project-name'], project_vars['author']))
-    main()
+    #main()
+
+    create_project('/Users/nenetto/SBD/Ferrovial/datalab/pymake/example/test.json')
 

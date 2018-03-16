@@ -4,6 +4,9 @@ import pkg_resources
 import re
 
 
+supported_project_types = ['python', 'R']
+
+
 def get_value_pymakefile(pymakefile,
                          var_name,
                          mandatory=False,
@@ -64,10 +67,17 @@ def replace_template(templatefile, pymakefile, mandatory=True):
 
 
 def get_header(pymakefile):
-    # Read header template file
-    header = pkg_resources.resource_filename('pymake', 'templates/python_project/header.template')
-    header = replace_template(header, pymakefile)
 
+    type_of_project = get_value_pymakefile(pymakefile, 'type_of_project', mandatory=True, default='python')
+
+    # Read header template file
+    if type_of_project == 'python':
+        header = pkg_resources.resource_filename('pymake', 'templates/python_project/header.template')
+
+    if type_of_project == 'R':
+        header = pkg_resources.resource_filename('pymake', 'templates/R_project/header.template')
+
+    header = replace_template(header, pymakefile)
     return header
 
 
@@ -77,3 +87,26 @@ def get_pymakevars(pymakefile):
     str_pmake_json = pformat(pmake_json)
     return str_pmake_json[1:-1]
 
+
+def get_value_pymakeconfigure(pymakeconfigure, var_name, mandatory=True):
+    # Read pmake
+    pmake_json = json.load(open(pymakeconfigure))
+
+    if 'configuration' not in pmake_json.keys():
+        msg = '\'configuration\' is not in pymake configure file'
+        raise (ValueError(msg))
+    else:
+        pmake_json = pmake_json['configuration']
+
+    # Check if var_name is in pmake file
+    lost = var_name not in pmake_json.keys()
+
+    # Check for mandatory
+    if mandatory and lost:
+        msg = 'Variable {var} is mandatory. Check your configuration'.format(var=var_name)
+        raise(ValueError(msg))
+    else:
+        if lost:
+            return None
+        else:
+            return pmake_json[var_name]

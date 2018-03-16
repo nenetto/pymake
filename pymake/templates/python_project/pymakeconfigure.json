@@ -12,6 +12,7 @@
 
     "configuration":
     {
+      "type": "python",
       "parent-folder": "/where/to/build/your/project",
       "packages": {
         "package_1": {},

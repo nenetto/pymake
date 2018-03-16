@@ -1,0 +1,1 @@
+R -e 'library("devtools"); install.packages(pkg="{package_name}", dependencies=TRUE, repos = "http://cran.us.r-project.org")'

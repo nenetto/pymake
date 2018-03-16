@@ -1,0 +1,13 @@
+{header}
+
+# Vars file
+# This file contains useful variables for project configuration
+project_vars <- list(author = "{author}",
+                     author.email = "{author_email}",
+                     docker.tag = "{docker_tag}",
+                     git.repo = "{git_repo}",
+                     project.description = "{project_description}",
+                     project.name = "{project_name}",
+                     project.version.minor = {project_version_minor},
+                     project.version.major = {project_version_major},
+                     type.of.project = "{type_of_project}")

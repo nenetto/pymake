@@ -1,0 +1,38 @@
+{header}
+
+# Import sources
+source("project_vars.R", chdir=T)
+
+cat('\n--------------------------------------------------------------------------\n')
+cat('Welcome to the project',
+    project_vars[['project.name']],
+    'created by',
+    project_vars[['author']])
+cat('\n--------------------------------------------------------------------------\n')
+
+
+# Main function
+main <- function(args_list){
+
+  # Example of entry point
+
+  if (length(args_list)==0) {
+    print(args_list)
+  } else {
+    cat('\n First argument: ')
+    cat(args_list[1])
+    cat('\n')
+  }
+
+  cat("\nThis is the main function\n")
+  cat("It should do something interesting....\n")
+
+}
+
+
+# Call Main function
+args <- commandArgs(TRUE)
+main(args)
+
+
+cat('\n\n')

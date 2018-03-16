@@ -6,6 +6,9 @@
 # Set python base image
 FROM python:3-stretch
 
+# Set author
+LABEL author="{author}"
+
 # Set the working directory
 WORKDIR /usr/src/app
 
