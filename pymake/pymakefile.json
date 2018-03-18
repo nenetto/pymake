@@ -2,7 +2,7 @@
     "project-name": "pymake",
     "project-description": "pymake package",
 
-    "project-version-major":1,
+    "project-version-major":2,
     "project-version-minor":0,
 
     "git-repo":"https://github.com/nenetto/pymake.git",
