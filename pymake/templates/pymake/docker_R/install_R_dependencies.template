@@ -12,5 +12,9 @@
 
 SEPARATOR="--------------------------------------------------------------------------------------------------"
 
+echo "[{project_name}] $SEPARATOR Set the working directory"
+echo -e "setwd('/usr/src/app/{project_root}/{project_root}')\n$(cat /usr/src/app/{project_root}/{project_root}/main.R)" > /usr/src/app/{project_root}/{project_root}/main.R
+
+
 echo "[{project_name}] $SEPARATOR Install R dependencies using R"
 {package_dependencies}

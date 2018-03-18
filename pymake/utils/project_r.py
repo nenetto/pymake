@@ -12,7 +12,7 @@ def create_main(pymakeconfigure, root_path):
 
     pname_sp = pymakeutils.get_value_pymakefile(pymakeconfigure, 'project_name', convert_spaces=True).lower()
 
-    project_init = project_init.replace('{project_name_package}', pname_sp)
+    project_init = project_init.replace('{project_root}', pname_sp)
 
     file_path = os.path.join(root_path, 'main.R')
 
@@ -149,15 +149,6 @@ def configure_pymake(pymakeconfigure, root_path):
     with open(file_path, 'w') as f:
         f.write(dockerfile_file)
 
-    # run_container_local
-    print('[{0}]    - run_container_local.sh'.format(pname))
-    dockerfile_file = pkg_resources.resource_filename('pymake', 'templates/pymake/docker_R/run_container_local.template')
-    dockerfile_file = pymakeutils.replace_template(dockerfile_file, pymakeconfigure, mandatory=False)
-
-    file_path = os.path.join(docker_path, 'run_container_local.template')
-    with open(file_path, 'w') as f:
-        f.write(dockerfile_file)
-
     # create_image
     print('[{0}]    - create_image.sh'.format(pname))
     dockerfile_file = pkg_resources.resource_filename('pymake',
@@ -165,6 +156,16 @@ def configure_pymake(pymakeconfigure, root_path):
     dockerfile_file = pymakeutils.replace_template(dockerfile_file, pymakeconfigure, mandatory=False)
 
     file_path = os.path.join(docker_path, 'create_image.template')
+    with open(file_path, 'w') as f:
+        f.write(dockerfile_file)
+
+    # run_container_local
+    print('[{0}]    - run_container_local.sh'.format(pname))
+    dockerfile_file = pkg_resources.resource_filename('pymake',
+                                                      'templates/pymake/docker_R/run_container_local.template')
+    dockerfile_file = pymakeutils.replace_template(dockerfile_file, pymakeconfigure, mandatory=False)
+
+    file_path = os.path.join(docker_path, 'run_container_local.template')
     with open(file_path, 'w') as f:
         f.write(dockerfile_file)
 
@@ -188,6 +189,27 @@ def configure_pymake(pymakeconfigure, root_path):
     with open(file_path, 'w') as f:
         f.write(dockerfile_file)
 
+    # install_package_command
+    print('[{0}]    - install_package_command'.format(pname))
+    install_package_command_file = pkg_resources.resource_filename('pymake',
+                                                      'templates/pymake/docker_R/install_package_command.template')
+    install_package_command_file = pymakeutils.replace_template(install_package_command_file, pymakeconfigure, mandatory=False)
+
+    file_path = os.path.join(docker_path, 'install_package_command.template')
+    with open(file_path, 'w') as f:
+        f.write(install_package_command_file)
+
+    # install_package_command
+    print('[{0}]    - install_R_dependencies'.format(pname))
+    install_R_dependencies_file = pkg_resources.resource_filename('pymake',
+                                                                   'templates/pymake/docker_R/install_R_dependencies.template')
+    install_R_dependencies_file = pymakeutils.replace_template(install_R_dependencies_file, pymakeconfigure,
+                                                                mandatory=False)
+
+    file_path = os.path.join(docker_path, 'install_R_dependencies.template')
+    with open(file_path, 'w') as f:
+        f.write(install_R_dependencies_file)
+
     # create_docker_image.py
     print('[{0}]    - create_docker_image.py'.format(pname))
     dockerfile_file = pkg_resources.resource_filename('pymake', 'templates/pymake/docker_R/create_docker_image.template')
@@ -197,6 +219,20 @@ def configure_pymake(pymakeconfigure, root_path):
     dockerfile_file = dockerfile_file.replace('{project_name_package}', pname_sp)
 
     file_path = os.path.join(docker_path, 'create_docker_image.py')
+
+    with open(file_path, 'w') as f:
+        f.write(dockerfile_file)
+
+    # main.sh
+    print('[{0}]    - main.sh'.format(pname))
+    dockerfile_file = pkg_resources.resource_filename('pymake',
+                                                      'templates/pymake/docker_R/main.template')
+    dockerfile_file = pymakeutils.replace_template(dockerfile_file, pymakeconfigure, mandatory=False)
+
+    pname_sp = pymakeutils.get_value_pymakefile(pymakeconfigure, 'project_name', convert_spaces=True).lower()
+    dockerfile_file = dockerfile_file.replace('{project_root}', pname_sp)
+
+    file_path = os.path.join(docker_path, 'main.template')
 
     with open(file_path, 'w') as f:
         f.write(dockerfile_file)
@@ -232,3 +268,5 @@ def create_project(pymakeconfigure):
     create_default_files(pymakeconfigure, root_path)
 
     create_resources(pymakeconfigure, root_path)
+
+    configure_pymake(pymakeconfigure, root_path)

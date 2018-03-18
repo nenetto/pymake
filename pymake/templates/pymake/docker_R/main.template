@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+#"""Project {project_name}
+#Author  {author}
+#email   {author_email}
+#"""
+
+
+SEPARATOR="--------------------------------------------------------------------------------------------------"
+
+echo "[{project_name}] $SEPARATOR Running main function"
+Rscript /usr/src/app/{project_root}/{project_root}/main.R
+

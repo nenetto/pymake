@@ -47,7 +47,4 @@ if __name__ == "__main__":
         print(f.read())
 
     print('\n'*5 + 'Welcome to the project [{0}] created by [{1}]'.format(project_vars['project-name'], project_vars['author']))
-    #main()
-
-    create_project('/Users/nenetto/SBD/Ferrovial/datalab/pymake/example/test.json')
-
+    main()

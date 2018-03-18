@@ -28,11 +28,11 @@ RUN apt-get update -y\
  && apt-get install r-base-dev -y --no-install-recommends\
  && R -e 'install.packages(c("devtools"), dependencies=TRUE, repos = "http://cran.us.r-project.org")'\
  && apt update\
- && apt full-upgrade -y\
+ && apt full-upgrade -y
 
 # Copy files
 COPY . {project_root}/
 RUN ./{project_root}/install_R_dependencies.sh\
- && chmod +x main.sh
+ && chmod +x {project_root}/main.sh
 
-CMD ["bash", "main.sh"]
+CMD ["bash", "/usr/src/app/{project_root}/main.sh"]

@@ -1,17 +1,17 @@
 {header}
-# TODO PASAR A R!!!!!
 import os
 import json
 import subprocess
 import pkg_resources
-from {project_name_package}.project_vars import project_vars
+import glob
 
+root_path = os.path.abspath(os.path.join(os.path.pardir, os.path.pardir))
 
 def docker_ignore():
 
     file_path = os.path.join(root_path, '.dockerignore')
     if os.path.exists(file_path) and os.path.isfile(file_path):
-        print('[{0}] Deleting old .dockerignore'.format(project_vars['project-name']))
+        print('[{0}] Deleting old .dockerignore'.format('{project_name}'))
         os.remove(file_path)
 
     setup_template = pkg_resources.resource_filename(__name__, 'dockerignore.template')
@@ -20,7 +20,7 @@ def docker_ignore():
     with open(setup_template, 'r') as setup_file:
         setup_text = setup_file.read()
 
-    print('[{0}] Saving .dockerignore'.format(project_vars['project-name']))
+    print('[{0}] Saving .dockerignore'.format('{project_name}'))
     with open(file_path, 'w') as file_file:
         file_file.write(setup_text)
 
@@ -28,7 +28,7 @@ def docker_ignore():
 def docker_file():
     file_path = os.path.join(root_path, 'Dockerfile')
     if os.path.exists(file_path) and os.path.isfile(file_path):
-        print('[{0}] Deleting old Dockerfile'.format(project_vars['project-name']))
+        print('[{0}] Deleting old Dockerfile'.format('{project_name}'))
         os.remove(file_path)
 
     file_template = pkg_resources.resource_filename(__name__, 'Dockerfile.template')
@@ -37,17 +37,73 @@ def docker_file():
     with open(file_template, 'r') as file_file:
         file_text = file_file.read()
 
-    file_text = file_text.replace('{project_root}', project_vars['project-name'].replace(' ', '_').lower())
+    file_text = file_text.replace('{project_root}', root_path.split('/')[-1].replace(' ', '_').lower())
 
-    print('[{0}] Saving Dockerfile'.format(project_vars['project-name']))
+    print('[{0}] Saving Dockerfile'.format('{project_name}'))
     with open(file_path, 'w') as file_file:
         file_file.write(file_text)
 
 
-print('[{0}] Configuring docker for project'.format(project_vars['project-name']))
+def search_dependencies():
+
+    print('[{0}] Configuring setup for project'.format('{project_name}'))
+
+    # Read pymake folder
+    print('[{0}] Reading pymake folder'.format('{project_name}'))
+    pymake_path = os.path.abspath(os.path.join(os.path.abspath(os.path.join(__file__, os.pardir)), os.pardir))
+
+    # main package folder
+    package_path = os.path.abspath(os.path.join(pymake_path, os.pardir))
+
+    # Configuring Package data
+    print('[{0}] Looking for dependencies'.format('{project_name}'))
+
+    model_string = pkg_resources.resource_filename(__name__, 'install_package_command.template')
+
+    # Replacing variables
+    with open(model_string, 'r') as file_file:
+        model_string = file_file.read()
+
+    dependencies = ''
+
+    result = [y for x in os.walk(package_path) for y in glob.glob(os.path.join(x[0], '*.R'))]
+    for file in result:
+        with open(file) as f:
+            content = f.readlines()
+        content = [x.strip() for x in content]
+        for line in content:
+            if 'require' in line or 'library' in line:
+                d = ''.join(ch for ch in line[8:] if ch.isalnum())
+                dependencies += model_string.replace('{package_name}', d) + '\n'
+                print('[{0}]    - [{1}]'.format('{project_name}', d))
+
+    # Install R dependencies script
+    file_path = os.path.join(root_path, 'install_R_dependencies.sh')
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        print('[{0}] Deleting old install_R_dependencies.sh'.format('{project_name}'))
+        os.remove(file_path)
+
+    file_template = pkg_resources.resource_filename(__name__, 'install_R_dependencies.template')
+
+    # Replacing variables
+    with open(file_template, 'r') as file_file:
+        file_text = file_file.read()
+
+    file_text = file_text.replace('{package_dependencies}', dependencies)
+    file_text = file_text.replace('{project_root}', root_path.split('/')[-1])
+
+    print('[{0}] Saving install_R_dependencies.sh'.format('{project_name}'))
+    with open(file_path, 'w') as file_file:
+        file_file.write(file_text)
+
+    # Change permissions
+    subprocess.check_call(['chmod', '777', '{0}'.format(file_path)])
+
+
+print('[{0}] Configuring docker for project'.format('{project_name}'))
 
 # Read pymake folder
-print('[{0}] Reading docker configuration'.format(project_vars['project-name']))
+print('[{0}] Reading docker configuration'.format('{project_name}'))
 pymake_path = os.path.abspath(os.path.join(os.path.abspath(os.path.join(__file__, os.pardir)), os.pardir))
 
 # main package folder
@@ -62,12 +118,12 @@ pymakefile = os.path.abspath(os.path.join(package_path, 'pymakefile.json'))
 pymakefile = json.load(open(pymakefile))
 
 if ('docker-tag' in pymakefile.keys()) and (pymakefile['docker-tag'] == ''):
-    print('[{0}] Tag not configured, setting default'.format(project_vars['project-name']))
-    docker_tag = project_vars['project-name'].replace(' ', '_').lower() + '_docker'
+    print('[{0}] Tag not configured, setting default'.format('{project_name}'))
+    docker_tag = root_path.split('/')[-1].replace(' ', '_').lower() + '_docker'
 else:
     docker_tag = pymakefile['docker-tag']
 
-print('[{0}] Docker tag is: [{1}]'.format(project_vars['project-name'], docker_tag))
+print('[{0}] Docker tag is: [{1}]'.format('{project_name}', docker_tag))
 
 
 # Creating Docker ignore
@@ -81,7 +137,7 @@ docker_file()
 # Create image
 file_path = os.path.join(root_path, 'create_image.sh')
 if os.path.exists(file_path) and os.path.isfile(file_path):
-    print('[{0}] Deleting old create_image.sh'.format(project_vars['project-name']))
+    print('[{0}] Deleting old create_image.sh'.format('{project_name}'))
     os.remove(file_path)
 
 file_template = pkg_resources.resource_filename(__name__, 'create_image.template')
@@ -92,7 +148,7 @@ with open(file_template, 'r') as file_file:
 
 file_text = file_text.replace('{docker_tag}', docker_tag)
 
-print('[{0}] Saving create_image.sh'.format(project_vars['project-name']))
+print('[{0}] Saving create_image.sh'.format('{project_name}'))
 with open(file_path, 'w') as file_file:
     file_file.write(file_text)
 
@@ -102,7 +158,7 @@ subprocess.check_call(['chmod', '777', '{0}'.format(file_path)])
 # Run container local
 file_path = os.path.join(root_path, 'run_container_local.sh')
 if os.path.exists(file_path) and os.path.isfile(file_path):
-    print('[{0}] Deleting old run_container_local.sh'.format(project_vars['project-name']))
+    print('[{0}] Deleting old run_container_local.sh'.format('{project_name}'))
     os.remove(file_path)
 
 file_template = pkg_resources.resource_filename(__name__, 'run_container_local.template')
@@ -113,7 +169,7 @@ with open(file_template, 'r') as file_file:
 
 file_text = file_text.replace('{docker_tag}', docker_tag)
 
-print('[{0}] Saving run_container_local.sh'.format(project_vars['project-name']))
+print('[{0}] Saving run_container_local.sh'.format('{project_name}'))
 with open(file_path, 'w') as file_file:
     file_file.write(file_text)
 
@@ -123,7 +179,7 @@ subprocess.check_call(['chmod', '777', '{0}'.format(file_path)])
 # aws push
 file_path = os.path.join(root_path, 'aws_push.sh')
 if os.path.exists(file_path) and os.path.isfile(file_path):
-    print('[{0}] Deleting old aws_push.sh'.format(project_vars['project-name']))
+    print('[{0}] Deleting old aws_push.sh'.format('{project_name}'))
     os.remove(file_path)
 
 file_template = pkg_resources.resource_filename(__name__, 'aws_push.template')
@@ -134,10 +190,31 @@ with open(file_template, 'r') as file_file:
 
 file_text = file_text.replace('{docker_tag}', docker_tag)
 
-print('[{0}] Saving aws_push.sh'.format(project_vars['project-name']))
+print('[{0}] Saving aws_push.sh'.format('{project_name}'))
 with open(file_path, 'w') as file_file:
     file_file.write(file_text)
 
 # Change permissions
 subprocess.check_call(['chmod', '777', '{0}'.format(file_path)])
 
+# main
+file_path = os.path.join(root_path, 'main.sh')
+if os.path.exists(file_path) and os.path.isfile(file_path):
+    print('[{0}] Deleting old aws_push.sh'.format('{project_name}'))
+    os.remove(file_path)
+
+file_template = pkg_resources.resource_filename(__name__, 'main.template')
+
+# Replacing variables
+with open(file_template, 'r') as file_file:
+    file_text = file_file.read()
+
+print('[{0}] Saving aws_push.sh'.format('{project_name}'))
+with open(file_path, 'w') as file_file:
+    file_file.write(file_text)
+
+# Change permissions
+subprocess.check_call(['chmod', '777', '{0}'.format(file_path)])
+
+
+search_dependencies()
