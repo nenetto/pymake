@@ -11,7 +11,7 @@
     "author-email": "author@mail.com",
 
     "docker-tag": "",
-    "type-of-project": "R",
+    "type-of-project": "python",
 
     "configuration":
     {

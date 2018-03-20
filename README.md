@@ -1,4 +1,4 @@
-# [pymake v1.0](https://github.com/nenetto/pymake.git)
+# [pymake v2.0](https://github.com/nenetto/pymake.git)
 
 Python package for project creation
 
@@ -24,6 +24,7 @@ Python package for project creation
     "author-email": "author@mail.com",
   
     "docker-tag": "",
+    "type-of-project": "python",
 
     "configuration":
     {
