@@ -61,7 +61,7 @@ setup(
                         'templates/R_project/pymake_vars.template',
                         'templates/R_project/pymakefile.template',
                         'templates/R_project/README.template',
-                        'templates/R_project/RPoject.template',
+                        'templates/R_project/RProject.template',
                         'templates/pymake/setup/setup.template',
                         'templates/pymake/setup/create_setup.template']},
     install_requires=['setuptools==38.4.0', 'pipreqs==0.4.9'],
