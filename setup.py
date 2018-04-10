@@ -64,7 +64,7 @@ setup(
                         'templates/R_project/RProject.template',
                         'templates/pymake/setup/setup.template',
                         'templates/pymake/setup/create_setup.template']},
-    install_requires=['setuptools==38.4.0', 'pipreqs==0.4.9'],
+    install_requires=['setuptools', 'pipreqs'],
     entry_points={
           'console_scripts': [
               'pymake = pymake.main:main'
