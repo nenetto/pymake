@@ -1,10 +1,10 @@
-# [pymake v2.0](https://github.com/nenetto/pymake.git)
+# [pymake v2.1](https://github.com/nenetto/pymake.git)
 
 Python package for project creation
 
 ## Installation
 
-`pip install setup.py`
+`pip install https://github.com/nenetto/pymake`
 
 ## Usage
 
@@ -147,3 +147,8 @@ CMD [ "example_project" ]
 
 ## Contact
 [E. Marinetto](mailto:nenetto@gmail.com)
+
+## TODO
+- Ignore notebook saving folder
+- Ignore resources from folders in .gitignore files during setup and Docker creation
+- Add color to messages by default (only Python Project)
