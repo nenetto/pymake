@@ -19,4 +19,5 @@ COPY . {project_root}/
 RUN pip install --no-cache-dir  {project_root}/
 
 # Define command to execute
-CMD [ "{project_root}" ]
+ENV TERM xterm
+CMD {project_root}

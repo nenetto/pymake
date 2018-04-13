@@ -35,4 +35,6 @@ COPY . {project_root}/
 RUN ./{project_root}/install_R_dependencies.sh\
  && chmod +x {project_root}/main.sh
 
-CMD ["bash", "/usr/src/app/{project_root}/main.sh"]
+# Define command to execute
+ENV TERM xterm
+CMD /usr/src/app/{project_root}/main.sh

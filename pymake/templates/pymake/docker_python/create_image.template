@@ -5,23 +5,11 @@
 #email   {author_email}
 #"""
 
-# ref: https://askubuntu.com/a/30157/8698
-if ! [ $(id -u) = 0 ]; then
-   echo "The script need to be run with sudo" >&2
-   exit 1
-fi
-
-if [ $SUDO_USER ]; then
-    real_user=$SUDO_USER
-else
-    real_user=$(whoami)
-fi
-
 # Delete all untagged images
-docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)
+docker rmi -f $(docker images | grep "^<none>" | awk '{print $3}') 2>/dev/null
 
 # Move to this directory
-sudo -u $real_user cd "$(dirname "$0")"
+-u $real_user cd "$(dirname "$0")"
 
 # Create docker image
-docker build -t {docker_tag} .
+build -t {docker_tag} .
