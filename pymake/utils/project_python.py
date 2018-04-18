@@ -98,8 +98,6 @@ def create_packages(pymakeconfigure, root_path):
 
 def configure_pymake(pymakeconfigure, root_path):
 
-    pname = pymakeutils.get_value_pymakefile(pymakeconfigure, 'project_name', convert_spaces=False)
-
     # Create pymake dir
     PrettyMessaging.print_info('Configuring pymake')
     pymake_path = os.path.join(root_path, 'pymake')
@@ -198,6 +196,12 @@ def configure_pymake(pymakeconfigure, root_path):
 
     with open(file_path, 'w') as f:
         f.write(dockerfile_file)
+
+    # Copy docker utils
+    PrettyMessaging.print_info('Docker Utils')
+
+    docker_utils_path = pkg_resources.resource_filename('pymake', 'templates/pymake/docker_utils')
+    shutil.copytree(docker_utils_path, os.path.join(docker_path, 'docker_utils'))
 
 
 def create_resources(pymakeconfigure, root_path):

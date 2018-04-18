@@ -12,7 +12,6 @@ import pkg_resources
 from pymake.utils.project import create_project
 from pymake.project_vars import project_vars, PrettyMessaging
 
-# TODO Add support to load projects from private repositories and git support
 
 def main(args=None):
     """Example of entry point"""

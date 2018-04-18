@@ -21,7 +21,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='pymake',
-    version='2.3',
+    version='2.2',
     description='pymake package',
     long_description=long_description,
     url='https://github.com/nenetto/pymake.git',
@@ -61,6 +61,11 @@ setup(
       'templates/python_project/pymake_vars.template',
       'templates/python_project/main.template',
       'templates/python_project/pymakeconfigure.json',
+      'templates/pymake/docker_utils/aws/install_aws_cli.sh',
+      'templates/pymake/docker_utils/forticlient_vpn/forticlient.sh',
+      'templates/pymake/docker_utils/forticlient_vpn/forticlient_setup',
+      'templates/pymake/docker_utils/forticlient_vpn/forticlient_docker_install_debian8.sh',
+      'templates/pymake/docker_utils/forticlient_vpn/connect_vpn.sh',
       'templates/pymake/setup/create_setup.template',
       'templates/pymake/setup/setup.template',
       'templates/pymake/docker_python/create_docker_image.template',
@@ -78,7 +83,7 @@ setup(
       'templates/pymake/docker_R/run_container_local.template',
       'templates/pymake/docker_R/Dockerfile.template',
       'templates/pymake/docker_R/main.template']},
-    install_requires=['setuptools==38.4.0', 'pipreqs==0.4.9'],
+    install_requires=['pipreqs==0.4.9', 'setuptools==38.4.0'],
     entry_points={
           'console_scripts': [
               'pymake = pymake.main:main'

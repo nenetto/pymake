@@ -1,6 +1,6 @@
 {header}
 import sys
-from {project_name_package}.project_vars import project_vars
+from {project_name_package}.project_vars import project_vars, PrettyMessaging
 
 
 def main(args=None):
@@ -16,10 +16,10 @@ def main(args=None):
         first_arg = args[0]
 
 
-    print("This is the main function")
-    print("It should do something interesting....")
+    PrettyMessaging.print_info('This is the main function')
+    PrettyMessaging.print_warning('It should do something interesting....')
 
 
 if __name__ == "__main__":
-    print('Welcome to the project [{0}] created by [{1}]'.format(project_vars['project-name'], project_vars['author']))
+    PrettyMessaging.print_info('Welcome to the project [{0}] created by [{1}]'.format(project_vars['project-name'], project_vars['author']))
     main()
