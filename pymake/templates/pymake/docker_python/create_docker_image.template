@@ -60,7 +60,7 @@ pymakefile = os.path.abspath(os.path.join(package_path, 'pymakefile.json'))
 pymakefile = json.load(open(pymakefile))
 
 if ('docker-tag' in pymakefile.keys()) and (pymakefile['docker-tag'] == ''):
-    PrettyMessaging.print_warning('Tag not configured, setting default)
+    PrettyMessaging.print_warning('Tag not configured, setting default')
     docker_tag = project_vars['project-name'].replace(' ', '_').lower() + '_docker'
 else:
     docker_tag = pymakefile['docker-tag']
