@@ -21,7 +21,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='pymake',
-    version='2.2',
+    version='2.4',
     description='pymake package',
     long_description=long_description,
     url='https://github.com/nenetto/pymake.git',

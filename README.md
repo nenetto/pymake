@@ -15,8 +15,8 @@ Python package for project creation
     "project-name": "Example project",
     "project-description": "Example project description",
 
-    "project-version-major":1,
-    "project-version-minor":3,
+    "project-version-major":2,
+    "project-version-minor":4,
 
     "git-repo":"https://github.com/user/example.git",
 
@@ -152,6 +152,3 @@ CMD [ "example_project" ]
 
 ## Contact
 [E. Marinetto](mailto:nenetto@gmail.com)
-
-## TODO Ignore notebook saving folder
-## TODO Ignore resources from folders in .gitignore files during setup and Docker creation

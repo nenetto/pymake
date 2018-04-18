@@ -20,7 +20,7 @@ project_vars={
  'project-description': 'pymake package',
  'project-name': 'pymake',
  'project-version-major': 2,
- 'project-version-minor': 3,
+ 'project-version-minor': 4,
  'type-of-project': 'python'
 }
 
