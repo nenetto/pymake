@@ -9,7 +9,7 @@
 docker rmi -f $(docker images | grep "^<none>" | awk '{print $3}') 2>/dev/null
 
 # Move to this directory
--u $real_user cd "$(dirname "$0")"
+cd "$(dirname "$0")"
 
 # Create docker image
 build -t {docker_tag} .

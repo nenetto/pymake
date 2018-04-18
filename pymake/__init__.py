@@ -13,9 +13,9 @@ pymake package
 # from package_name import module_name as module_name
 
 # Packages
-from .utils import project_python, pymakeutils
+#from utils import [MODULE] as [MODULE]
 
 
 # __all__ variable
 # Fill it in with the packages you want to export in "from project_name import *"
-__all__ = ['utils', 'pymakeutils']
+__all__ = []

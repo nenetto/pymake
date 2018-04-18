@@ -2,7 +2,7 @@ import json
 from pprint import pformat
 import pkg_resources
 import re
-
+from pymake.project_vars import PrettyMessaging
 
 supported_project_types = ['python', 'R']
 
@@ -32,6 +32,7 @@ def get_value_pymakefile(pymakefile,
     # Check for mandatory
     if mandatory and lost:
         msg = 'Variable {var} is mandatory. Check your pymakefile.pmake'.format(var=var_name)
+        PrettyMessaging.print_error(msg)
         raise(ValueError(msg))
     else:
         # Replace by default value
@@ -57,7 +58,6 @@ def replace_template(templatefile, pymakefile, mandatory=True):
         var_name_hyp = var_name[1:-1]
         var_value = get_value_pymakefile(pymakefile, var_name_hyp, mandatory=mandatory, convert_spaces=False)
 
-        #print('Replacing [{0}] by [{1}]'.format(var_name[1:-1], var_value))
         if mandatory:
             tf_str = tf_str.replace(var_name, var_value)
         elif var_value != '':
@@ -104,6 +104,7 @@ def get_value_pymakeconfigure(pymakeconfigure, var_name, mandatory=True):
     # Check for mandatory
     if mandatory and lost:
         msg = 'Variable {var} is mandatory. Check your configuration'.format(var=var_name)
+        PrettyMessaging.print_error(msg)
         raise(ValueError(msg))
     else:
         if lost:

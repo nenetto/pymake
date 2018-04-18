@@ -1,4 +1,4 @@
-# [pymake v2.1](https://github.com/nenetto/pymake.git)
+# [pymake v2.3](https://github.com/nenetto/pymake.git)
 
 Python package for project creation
 
@@ -22,7 +22,7 @@ Python package for project creation
 
     "author": "AuthorName AuthorLastName",
     "author-email": "author@mail.com",
-  
+
     "docker-tag": "",
     "type-of-project": "python",
 
@@ -67,7 +67,7 @@ Python package for project creation
             - :open_file_folder: **[setup]**
                 - :page_with_curl: `create_setup.py`
                 - :page_with_curl: `setup.py.template`
-        
+
 
 ### 4. Develop on your packages
 
@@ -118,7 +118,7 @@ This script will create the configuration for a docker image creation. **Note** 
 #### Push your docker image to the **aws** repository
 
 >Run the script **`aws_push.sh`** as **root**
-    
+
 >**The Dockerfile**
 
 >This file is a default that you can modify. It will copy your project folder, install using the `setup.py` and launch your `main` script function
@@ -145,10 +145,13 @@ RUN pip install --no-cache-dir  example_project/
 CMD [ "example_project" ]
 ```
 
+## Project Vars
+
+# TODO: Explicar colores en el README
+
+
 ## Contact
 [E. Marinetto](mailto:nenetto@gmail.com)
 
-## TODO
-- Ignore notebook saving folder
-- Ignore resources from folders in .gitignore files during setup and Docker creation
-- Add color to messages by default (only Python Project)
+## TODO Ignore notebook saving folder
+## TODO Ignore resources from folders in .gitignore files during setup and Docker creation

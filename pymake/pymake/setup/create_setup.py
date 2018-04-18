@@ -1,4 +1,12 @@
-{header}
+"""
+pymake
+-------------------------------
+
+pymake package
+
+ - E. Marinetto
+ - nenetto@gmail.com
+"""
 import os
 import sys
 import subprocess
@@ -6,7 +14,7 @@ import glob
 from pprint import pformat
 import pipreqs
 import pkg_resources
-from {project_name_package}.project_vars import project_vars, PrettyMessaging
+from pymake.project_vars import project_vars, PrettyMessaging
 
 PrettyMessaging.print_separator()
 PrettyMessaging.print_info('Configuring setup for project')

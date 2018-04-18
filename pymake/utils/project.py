@@ -1,4 +1,5 @@
 from pymake.utils import pymakeutils, project_python, project_r
+from pymake.project_vars import PrettyMessaging
 
 
 def create_project(pymakeconfigure):
@@ -9,7 +10,7 @@ def create_project(pymakeconfigure):
                                                        default='python')
 
     if type_of_project in pymakeutils.supported_project_types:
-        print('[{0}] Creating project of type [{1}] '.format(pname, type_of_project))
+        PrettyMessaging.print_info('Creating project of type [{1}] '.format(pname, type_of_project))
 
         if type_of_project == 'python':
             project_python.create_project(pymakeconfigure)
@@ -19,5 +20,6 @@ def create_project(pymakeconfigure):
 
     else:
         msg = 'Type of project [{0}] not supported :D, what about creating yourself?'.format(type_of_project)
+        PrettyMessaging.print_error(msg)
         raise(ValueError(msg))
 
