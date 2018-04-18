@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+
+spawn "/usr/share/forticlient/opt/forticlient-sslvpn/64bit/helper/setup"
+
+# Send command
+expect {
+            "%)" {send "q"}
+        }
+expect {
+            "No]" {send "Yes\r"}
+        }
+interact
