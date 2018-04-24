@@ -6,6 +6,11 @@ project_vars={
  {pymakefile_vars}
 }
 
+import json
+import pprint
+from tabulate import tabulate
+import sys
+
 class PrettyMessaging:
 
     color_codes = {
@@ -135,3 +140,34 @@ class PrettyMessaging:
         pprint(example_conf)
         print(PrettyMessaging.print_colors['off'])
         PrettyMessaging.print_separator()
+
+    @staticmethod
+    def print_table(df, n=None):
+        if n is None:
+            n = 5
+
+        print(PrettyMessaging.print_colors['2'])
+        print(tabulate(df.head(n), headers='keys', tablefmt='psql'))
+        print(PrettyMessaging.print_colors['off'])
+
+    @staticmethod
+    def print_info_percentage(percentage, msg_pre='', msg_post=''):
+
+        header, separator = PrettyMessaging.project_header()
+        header_info = header + PrettyMessaging.print_colors['1'] + '[   info]' +\
+                      PrettyMessaging.print_colors['off'] + separator
+        msg = header_info + PrettyMessaging.print_colors['2'] + msg_pre + PrettyMessaging.print_colors['off']
+
+        msg += PrettyMessaging.print_colors['3'] +\
+               ': [ {0:.2f} %]-'.format(percentage) +\
+               PrettyMessaging.print_colors['2'] + \
+               msg_post + \
+               PrettyMessaging.print_colors['off']
+
+        if percentage >= 100:
+            str1 = "\r{0}\n".format(msg)
+        else:
+            str1 = "\r{0}".format(msg)
+
+        sys.stdout.write(str1)
+        sys.stdout.flush()
