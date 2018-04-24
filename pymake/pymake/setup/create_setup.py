@@ -61,7 +61,7 @@ requirements = []
 with open(requirements_file_path, 'r') as f:
     content = f.readlines()
 
-content = [x.strip() for x in content]
+content = [x.strip().replace('==', '>=') for x in content]
 if content != ['']:
     requirements = requirements + content
 
