@@ -141,7 +141,7 @@ class PrettyMessaging:
         print(msg)
 
     @staticmethod
-    def print_separator(size = 67):
+    def print_separator(size=67):
         msg = PrettyMessaging.print_colors['2'] + '-'*size + PrettyMessaging.print_colors['off']
         print(msg)
 
