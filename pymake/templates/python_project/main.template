@@ -8,6 +8,8 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
+    PrettyMessaging.print_info('This is the main function of {0}'.format(project_vars['project-name']))
+
     """Read the args"""
     if len(args) > 0:
         for i in args:
@@ -15,9 +17,10 @@ def main(args=None):
 
         first_arg = args[0]
 
+        PrettyMessaging.print_info('You passed the parameter [{0}]'.format(first_arg))
 
-    PrettyMessaging.print_info('This is the main function')
-    PrettyMessaging.print_warning('It should do something interesting....')
+    else:
+        PrettyMessaging.print_warning('No parameters passed')
 
 
 if __name__ == "__main__":

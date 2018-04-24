@@ -3,11 +3,15 @@
 #email   {author_email}
 #"""
 
+# Set image labels
+LABEL project.name="{project_name}"
+LABEL project.version="{project_version_major}.{project_version_minor}"
+LABEL project.author="{author}"
+LABEL project.author.email="{author_email}"
+
+
 # Set python base image
 FROM python:3-stretch
-
-# Set author
-LABEL author="{author}"
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -20,4 +24,4 @@ RUN pip install --no-cache-dir  {project_root}/
 
 # Define command to execute
 ENV TERM xterm
-CMD {project_root}
+ENTRYPOINT ["{project_root}"]

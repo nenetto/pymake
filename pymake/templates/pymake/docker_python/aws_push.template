@@ -5,18 +5,6 @@
 #email   {author_email}
 #"""
 
-# ref: https://askubuntu.com/a/30157/8698
-if ! [ $(id -u) = 0 ]; then
-   echo "The script need to be run with sudo" >&2
-   exit 1
-fi
-
-if [ $SUDO_USER ]; then
-    real_user=$SUDO_USER
-else
-    real_user=$(whoami)
-fi
-
 echo "Logging to AWS..."
 login_aws=$(aws ecr get-login --no-include-email --region eu-west-2)
 login_aws_sudo=$(echo sudo $login_aws)

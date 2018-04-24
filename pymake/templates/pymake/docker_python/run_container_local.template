@@ -6,4 +6,4 @@
 #"""
 
 # Test docker functioning
-docker run -it --rm --privileged --net host {docker_tag}
+docker run -it {docker_tag}

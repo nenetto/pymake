@@ -3,7 +3,9 @@ import os
 import json
 import subprocess
 import pkg_resources
+from time import gmtime, strftime
 from {project_name_package}.project_vars import project_vars, PrettyMessaging
+
 
 def docker_ignore():
 
@@ -26,8 +28,8 @@ def docker_ignore():
 def docker_file():
     file_path = os.path.join(root_path, 'Dockerfile')
     if os.path.exists(file_path) and os.path.isfile(file_path):
-        PrettyMessaging.print_info('Deleting old Dockerfile')
-        os.remove(file_path)
+        PrettyMessaging.print_info('Saving old Dockerfile')
+        os.rename(file_path, os.path.join(root_path, 'Dockerfile' + strftime("%Y_%m_%d_%H_%M_%S", gmtime())))
 
     file_template = pkg_resources.resource_filename(__name__, 'Dockerfile.template')
 
@@ -60,8 +62,8 @@ pymakefile = os.path.abspath(os.path.join(package_path, 'pymakefile.json'))
 pymakefile = json.load(open(pymakefile))
 
 if ('docker-tag' in pymakefile.keys()) and (pymakefile['docker-tag'] == ''):
-    PrettyMessaging.print_warning('Tag not configured, setting default')
-    docker_tag = project_vars['project-name'].replace(' ', '_').lower() + '_docker'
+    PrettyMessaging.print_error('Tag not configured')
+    PrettyMessaging.print_error('  Please set the tag for the docker image in pymakefile.json')
 else:
     docker_tag = pymakefile['docker-tag']
 
