@@ -1,19 +1,39 @@
+"""
+pymake
+-------------------------------
+
+pymake package
+
+ - E. Marinetto
+ - nenetto@gmail.com
+"""
+
 import pkg_resources
 import os
 import shutil
 from pymake.utils import pymakeutils
 from pymake.project_vars import PrettyMessaging
+import tempfile
 
-def create_readme(pymakeconfigure, root_path):
+
+def create_readme(pymakeconfigure, root_path, temp=False):
 
     # Read README.md template file
     readme = pkg_resources.resource_filename('pymake', 'templates/python_project/README.template')
     readme = pymakeutils.replace_template(readme, pymakeconfigure)
 
-    file_path = os.path.join(os.path.dirname(root_path), 'README.md')
+    if temp:
+        f = tempfile.NamedTemporaryFile(delete=False)
+        f.close()
+        file_path = f.name
+    else:
+        file_path = os.path.join(os.path.dirname(root_path), 'README.md')
 
     with open(file_path, 'w') as f:
         f.write(readme)
+
+    if temp:
+        return f.name
 
 
 def create_init(pymakeconfigure, root_path):
@@ -51,28 +71,36 @@ def create_main(pymakeconfigure, root_path):
         f.write(project_init)
 
 
-def create_pymake_vars(pymakefile, root_path):
+def create_pymake_vars(pymakefile, root_path, temp=True):
 
     # Read package vars.py template file
     project_vars = pkg_resources.resource_filename('pymake', 'templates/python_project/pymake_vars.template')
     project_vars = pymakeutils.replace_template(project_vars, pymakefile)
 
-    file_path = os.path.join(root_path, 'project_vars.py')
+    if temp:
+        f = tempfile.NamedTemporaryFile(delete=False)
+        f.close()
+        file_path = f.name
+    else:
+        file_path = os.path.join(os.path.dirname(root_path), 'project_vars.py')
 
     with open(file_path, 'w') as f:
         f.write(project_vars)
+
+    if temp:
+        return f.name
 
 
 def create_pymakefile(pymakeconfigure, root_path):
 
     # Read package vars.py template file
-    project_vars = pkg_resources.resource_filename('pymake', 'templates/python_project/pymakefile.template')
-    project_vars = pymakeutils.replace_template(project_vars, pymakeconfigure)
+    pmakefile = pkg_resources.resource_filename('pymake', 'templates/python_project/pymakefile.template')
+    pmakefile = pymakeutils.replace_template(pmakefile, pymakeconfigure)
 
     file_path = os.path.join(root_path, 'pymakefile.json')
 
     with open(file_path, 'w') as f:
-        f.write(project_vars)
+        f.write(pmakefile)
 
 
 def create_packages(pymakeconfigure, root_path):
@@ -247,9 +275,7 @@ def create_default_files(pymakeconfigure, root_path):
 def create_project(pymakeconfigure):
 
     # Extract name of project
-    pname = pymakeutils.get_value_pymakefile(pymakeconfigure, 'project_name', convert_spaces=False)
     pname_sp = pymakeutils.get_value_pymakefile(pymakeconfigure, 'project_name', convert_spaces=True).lower()
-
 
     # Extract directory root
     root_path = os.path.join(pymakeutils.get_value_pymakeconfigure(pymakeconfigure, 'parent-folder'))

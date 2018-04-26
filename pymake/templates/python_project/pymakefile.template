@@ -11,5 +11,7 @@
     "author-email": "{author_email}",
 
     "docker-tag": "",
-    "type-of-project": "python"
+    "type-of-project": "python",
+
+    "pymake-version": {pymake_version}
 }

@@ -42,9 +42,8 @@ for root, directories, filenames in os.walk(root_path):
             common_prefix = os.path.commonprefix([package_path, abs_path])
             path2add = os.path.relpath(abs_path, common_prefix)
 
-            if '__pycache__' not in path2add:
-                package_data_list.append(path2add)
-                PrettyMessaging.print_info('   - [{0}]'.format(os.path.split(path2add)[-1]))
+            package_data_list.append(path2add)
+            PrettyMessaging.print_info('   - [{0}]'.format(os.path.split(path2add)[-1]))
 
 package_data = {'': package_data_list}
 
@@ -61,7 +60,7 @@ requirements = []
 with open(requirements_file_path, 'r') as f:
     content = f.readlines()
 
-content = [x.strip().replace('==', '>=') for x in content]
+content = [x.strip() for x in content]
 if content != ['']:
     requirements = requirements + content
 

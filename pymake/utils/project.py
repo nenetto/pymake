@@ -1,3 +1,12 @@
+"""
+pymake
+-------------------------------
+
+pymake package
+
+ - E. Marinetto
+ - nenetto@gmail.com
+"""
 from pymake.utils import pymakeutils, project_python, project_r
 from pymake.project_vars import PrettyMessaging
 

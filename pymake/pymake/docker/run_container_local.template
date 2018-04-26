@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+#"""Project pymake
+#Author  E. Marinetto
+#email   nenetto@gmail.com
+#"""
+
+# Test docker functioning
+docker run -it {docker_tag}

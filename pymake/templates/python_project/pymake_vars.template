@@ -1,15 +1,16 @@
 {header}
 
+import json
+from pprint import pprint
+from tabulate import tabulate
+import sys
+
 # Vars file
 # This file contains useful variables for project configuration
 project_vars={
  {pymakefile_vars}
 }
 
-import json
-import pprint
-from tabulate import tabulate
-import sys
 
 class PrettyMessaging:
 

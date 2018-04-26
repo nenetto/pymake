@@ -7,8 +7,11 @@ pymake package
  - E. Marinetto
  - nenetto@gmail.com
 """
-from pprint import pprint
+
 import json
+from pprint import pprint
+from tabulate import tabulate
+import sys
 
 # Vars file
 # This file contains useful variables for project configuration
@@ -20,7 +23,8 @@ project_vars={
  'project-description': 'pymake package',
  'project-name': 'pymake',
  'project-version-major': 2,
- 'project-version-minor': 4,
+ 'project-version-minor': 5,
+ 'pymake-version': 2.5,
  'type-of-project': 'python'
 }
 
@@ -42,7 +46,7 @@ class PrettyMessaging:
         'White': '\033[0;37m',        # White
 
         # Bold
-        'BBlack': '\033[30m',       # Black
+        'BBlack': '\033[1;30m',       # Black
         'BRed': '\033[1;31m',         # Red
         'BGreen': '\033[1;32m',       # Green
         'BYellow': '\033[1;33m',      # Yellow
@@ -106,9 +110,9 @@ class PrettyMessaging:
         '1': color_codes['BIGreen'],
         '2': color_codes['Yellow'],
         '3': color_codes['BIBlue'],
-        'warningH': color_codes['BPurple'] + color_codes['On_Green'],
+        'warningH': color_codes['On_Green'] + color_codes['BBlack'],
         'warning': color_codes['Green'],
-        'errorH': color_codes['BBlack'] + color_codes['On_Red'],
+        'errorH': color_codes['On_Red'] + color_codes['BBlack'],
         'error': color_codes['Red'],
         'off': color_codes['Color_Off']
     }
@@ -141,7 +145,7 @@ class PrettyMessaging:
         print(msg)
 
     @staticmethod
-    def print_separator(size=67):
+    def print_separator(size = 67):
         msg = PrettyMessaging.print_colors['2'] + '-'*size + PrettyMessaging.print_colors['off']
         print(msg)
 
@@ -154,3 +158,34 @@ class PrettyMessaging:
         pprint(example_conf)
         print(PrettyMessaging.print_colors['off'])
         PrettyMessaging.print_separator()
+
+    @staticmethod
+    def print_table(df, n=None):
+        if n is None:
+            n = 5
+
+        print(PrettyMessaging.print_colors['2'])
+        print(tabulate(df.head(n), headers='keys', tablefmt='psql'))
+        print(PrettyMessaging.print_colors['off'])
+
+    @staticmethod
+    def print_info_percentage(percentage, msg_pre='', msg_post=''):
+
+        header, separator = PrettyMessaging.project_header()
+        header_info = header + PrettyMessaging.print_colors['1'] + '[   info]' +\
+                      PrettyMessaging.print_colors['off'] + separator
+        msg = header_info + PrettyMessaging.print_colors['2'] + msg_pre + PrettyMessaging.print_colors['off']
+
+        msg += PrettyMessaging.print_colors['3'] +\
+               ': [ {0:.2f} %]-'.format(percentage) +\
+               PrettyMessaging.print_colors['2'] + \
+               msg_post + \
+               PrettyMessaging.print_colors['off']
+
+        if percentage >= 100:
+            str1 = "\r{0}\n".format(msg)
+        else:
+            str1 = "\r{0}".format(msg)
+
+        sys.stdout.write(str1)
+        sys.stdout.flush()

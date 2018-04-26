@@ -1,3 +1,12 @@
+"""
+pymake
+-------------------------------
+
+pymake package
+
+ - E. Marinetto
+ - nenetto@gmail.com
+"""
 import json
 from pprint import pformat
 import pkg_resources
@@ -27,7 +36,6 @@ def get_value_pymakefile(pymakefile,
             return get_header(pymakefile)
         if var_name == 'pymakefile-vars':
             return get_pymakevars(pymakefile)
-
 
     # Check for mandatory
     if mandatory and lost:
@@ -81,11 +89,14 @@ def get_header(pymakefile):
     return header
 
 
-def get_pymakevars(pymakefile):
+def get_pymakevars(pymakefile, asdict=False):
     # Read pmake
     pmake_json = json.load(open(pymakefile))
-    str_pmake_json = pformat(pmake_json)
-    return str_pmake_json[1:-1]
+    if asdict:
+        return pmake_json
+    else:
+        str_pmake_json = pformat(pmake_json)
+        return str_pmake_json[1:-1]
 
 
 def get_value_pymakeconfigure(pymakeconfigure, var_name, mandatory=True):

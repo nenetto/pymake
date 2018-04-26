@@ -1,8 +1,8 @@
-# [pymake v2.3](https://github.com/nenetto/pymake.git)
+# [pymake v2.5](https://github.com/nenetto/pymake.git)
+pymake package
 
-Python package for project creation
-
-## Installation
+**Contact**
+  - [E. Marinetto](mailto:nenetto@gmail.com)
 
 `pip install https://github.com/nenetto/pymake`
 
@@ -146,9 +146,3 @@ CMD [ "example_project" ]
 ```
 
 ## Project Vars
-
-# TODO: Explicar colores en el README
-
-
-## Contact
-[E. Marinetto](mailto:nenetto@gmail.com)

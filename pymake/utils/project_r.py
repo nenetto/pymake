@@ -1,3 +1,12 @@
+"""
+pymake
+-------------------------------
+
+pymake package
+
+ - E. Marinetto
+ - nenetto@gmail.com
+"""
 import pkg_resources
 import os
 import shutil
