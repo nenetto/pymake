@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import pandas as pd
-
+from pymake.utils.common.prettymessaging import PrettyMessaging
 
 class DataBase(ABC):
 
@@ -9,6 +9,8 @@ class DataBase(ABC):
         self._connected = False
         self._verbose = True
         super().__init__()
+
+        self.pm = PrettyMessaging('DataBase')
 
     @abstractmethod
     def connect(self):

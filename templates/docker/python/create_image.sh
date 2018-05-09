@@ -1,9 +1,4 @@
-#!/usr/bin/env bash
-
-#"""Project {project_name}
-#Author  {author}
-#email   {author_email}
-#"""
+#parse('bash_header')
 
 # Delete all untagged images
 docker rmi -f $(docker images | grep "^<none>" | awk '{print $3}') 2>/dev/null

@@ -1,9 +1,4 @@
-#!/usr/bin/env bash
-
-#"""Project {project_name}
-#Author  {author}
-#email   {author_email}
-#"""
+#parse('bash_header')
 
 echo "Logging to AWS..."
 login_aws=$(aws ecr get-login --no-include-email --region eu-west-2)

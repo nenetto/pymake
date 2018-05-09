@@ -1,4 +1,4 @@
-#parse('header.py')
+#parse('python_header')
 import sys
 
 

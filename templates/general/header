@@ -1,0 +1,6 @@
+${PROJECT_NAME}
+-------------------------------
+ - ${AUTHOR}
+ - ${AUTHOR_EMAIL}
+-------------------------------
+Created ${DAY}-${MONTH}-${YEAR}

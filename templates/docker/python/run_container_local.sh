@@ -1,9 +1,4 @@
-#!/usr/bin/env bash
-
-#"""Project {project_name}
-#Author  {author}
-#email   {author_email}
-#"""
+#parse('bash_header')
 
 # Test docker functioning
-docker run -it {docker_tag}
+docker run -it {DOCKER_TAG}

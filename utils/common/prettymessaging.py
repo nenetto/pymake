@@ -1,3 +1,12 @@
+"""
+pycharm
+-------------------------------
+ - Eugenio Marinetto
+ - nenetto@gmail.com
+-------------------------------
+Created 09-05-2018
+"""
+
 from tabulate import tabulate
 from pprint import pprint
 import sys
@@ -120,7 +129,7 @@ class PrettyMessaging:
         msg = header_info + self.print_colors['3'] + msg + self.print_colors['off']
         print(msg)
 
-    def print_error(self, msg, raise_error=None, padding=0):
+    def print_error(self, msg, exit_code=None, raise_error=None, padding=0):
         header, separator = self.project_header(padding)
         header_info = header + self.print_colors['errorH'] + '[#error#]' + self.print_colors[
             'off'] + separator
@@ -129,6 +138,9 @@ class PrettyMessaging:
 
         if raise_error is not None:
             raise raise_error
+
+        if exit_code is not None:
+            exit(exit_code)
 
     def print_warning(self, msg, padding=0):
         header, separator = self.project_header(padding)

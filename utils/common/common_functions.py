@@ -1,9 +1,19 @@
+"""
+pymake
+-------------------------------
+ - Eugenio Marinetto
+ - nenetto@gmail.com
+-------------------------------
+Created 08-05-2018
+"""
+
 import json
 import re
 import copy
 import pkg_resources
+import os
 from inspect import getmembers, isfunction
-from pymake.utils.prettymessaging import PrettyMessaging
+from pymake.utils.common.prettymessaging import PrettyMessaging
 
 
 def json2dict(path):
@@ -115,3 +125,11 @@ def applymodifier(var_value, modifiers=[]):
 
     return var_value
 
+
+def read_env_var(name):
+    if name in os.environ:
+        return os.environ[name]
+    else:
+        pm = PrettyMessaging('pymake')
+        pm.print_error('Environment variable [{0}] not found'.format(name), exit_code=1)
+    return None

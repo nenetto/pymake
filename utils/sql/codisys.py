@@ -1,7 +1,6 @@
 import pyodbc
-from datalab_utils.sql.database import DataBase
-import warnings
-from datalab_utils.project_vars import PrettyMessaging
+from pymake.utils.sql.database import DataBase
+from pymake.utils.common.common_functions import read_env_var
 
 '''
 
@@ -28,42 +27,42 @@ class Codisys(DataBase):
         self._verbose = verbose
 
         # CODISYS connection info
-        self._host = '192.168.0.3'
-        self._port = 1433
-        self._dbname = 'CODYSHOP'
-        self._user = 'codisys'
-        self._pwd = "P@ssw0rd1"
+        self._host = read_env_var('CODISYS_HOST')
+        self._port = read_env_var('CODISYS_PORT')
+        self._dbname = read_env_var('CODISYS_DB_NAME')
+        self._user = read_env_var('CODISYS_USER')
+        self._pwd = read_env_var('CODISYS_PWD')
 
     def connect(self):
 
         if not self._connected:
             connection_string = 'DRIVER={ODBC Driver 13 for SQL Server};'
             connection_string += 'SERVER={0};DATABASE={1};UID={2};PWD={3};'.format(self._host,
-                                                                                  self._dbname,
-                                                                                  self._user,
-                                                                                  self._pwd)
+                                                                                   self._dbname,
+                                                                                   self._user,
+                                                                                   self._pwd)
             try:
                 self._connection = pyodbc.connect(connection_string)
             except Exception as e:
-                PrettyMessaging.print_error('[Codisys]: Error connecting to database')
-                PrettyMessaging.print_error('[Codisys]: Did you install MSSQL drivers?')
-                PrettyMessaging.print_error('[Codisys]:    go to-> https://docs.microsoft.com/en-us/sql/connect/odbc/\
-                                             linux-mac/installing-the-microsoft-odbc-driver-for-sql-server#os-x-1011-el\
-                                             -capitan-and-macos-1012-sierra')
-                PrettyMessaging.print_separator()
-                PrettyMessaging.print_error(str(e))
-                PrettyMessaging.print_separator()
+                self.pm.print_error('Error connecting to database')
+                self.pm.print_error('Did you install MSSQL drivers?')
+                self.pm.print_error('go to-> https://docs.microsoft.com/en-us/sql/connect/odbc/\
+                                    linux-mac/installing-the-microsoft-odbc-driver-for-sql-server#os-x-1011-el\
+                                    -capitan-and-macos-1012-sierra')
+                self.pm.print_separator()
+                self.pm.print_error(str(e))
+                self.pm.print_separator()
                 self._connected = False
                 return
 
             self._connected = True
 
             if self._verbose:
-                PrettyMessaging.print_info('[Codisys]: Connection Success')
+                self.pm.print_info('Connection Success')
 
     def disconnect(self):
         if self._connected:
             self._connection.close()
             self._connected = False
             if self._verbose:
-                PrettyMessaging.print_info('[Codisys]: Disconnection Success')
+                self.pm.print_info('Disconnection Success')

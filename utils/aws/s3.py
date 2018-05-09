@@ -1,6 +1,14 @@
+"""
+pycharm
+-------------------------------
+ - Eugenio Marinetto
+ - nenetto@gmail.com
+-------------------------------
+Created 09-05-2018
+"""
 import boto3
 import botocore
-from datalab_utils.project_vars import PrettyMessaging
+from pymake.utils.common.prettymessaging import PrettyMessaging
 import os
 
 
@@ -40,7 +48,8 @@ def downloads3(file_local_path, s3_bucketname, file_remote_path, verbose=True):
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             if verbose:
-                PrettyMessaging.print_error('[AWS][S3] The object does not exist.')
+                pm = PrettyMessaging('pymake')
+                pm.print_error('[AWS][S3] The object does not exist.')
             return False
         else:
             raise
