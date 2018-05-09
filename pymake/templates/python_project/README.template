@@ -1,5 +1,0 @@
-# [{project_name} v{project_version_major}.{project_version_minor}]({git_repo})
-{project_description}
-
-**Contact**
-  - [{author}](mailto:{author_email})
