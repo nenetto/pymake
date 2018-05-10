@@ -25,7 +25,7 @@ setup(
         url='${GIT_REPOSITORY}',
         author='${AUTHOR}',
         author_email='${AUTHOR_EMAIL}',
-        packages=find_packages(),
+        packages=find_packages(exclude=("tests",)),
         install_requires='${PACKAGE_REQUIREMENTS}',
         include_package_data=True,
         package_data='${PACKAGE_DATA}',

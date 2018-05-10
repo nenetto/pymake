@@ -108,7 +108,7 @@ def create_setup(path):
 
     fnull = open(os.devnull, 'w')
     pm.print_info('Looking for requirements with pipreqs v{0}'.format(pipreqs.__version__))
-    subprocess.check_call(['pipreqs', '--force', '--ignore', 'templates', '{0}'.format(path)],
+    subprocess.check_call(['pipreqs', '--force', '--ignore', 'templates,tests', '{0}'.format(path)],
                           stdout=fnull,
                           stderr=fnull)
     requirements_file_path = os.path.join(package_path, 'requirements.txt')
