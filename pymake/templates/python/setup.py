@@ -26,13 +26,8 @@ setup(
         author='${AUTHOR}',
         author_email='${AUTHOR_EMAIL}',
         packages=find_packages(),
-        install_requires=${PACKAGE_REQUIREMENTS},
-        package_dir={},
+        install_requires='${PACKAGE_REQUIREMENTS}',
         include_package_data=True,
-        package_data={'': 'README.md'},
-        entry_points={
-              'console_scripts': [
-                  #'{PROJECT_ENTRY_POINT} = {PROJECT_ENTRY_POINT}.main:main'
-              ]
-          }
+        package_data='${PACKAGE_DATA}',
+        entry_points={'console_scripts': ['${PROJECT_NAME} = ${PROJECT_NAME}.main:main']}
         )

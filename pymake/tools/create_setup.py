@@ -10,7 +10,9 @@ pymake package
 import os
 import subprocess
 import pipreqs
+from pprint import pformat
 import pkg_resources
+from setuptools import find_packages
 from pymake.utils.common.prettymessaging import PrettyMessaging
 from pymake.utils.common.common_functions import json2dict
 
@@ -18,6 +20,12 @@ from pymake.utils.common.common_functions import json2dict
 def isignored(f_path):
 
     if f_path[0] == '.':
+        return True
+
+    if '__pycache__' in f_path:
+        return True
+
+    if '.git' in f_path:
         return True
 
     f_name = os.path.split(f_path)[-1]
@@ -57,19 +65,32 @@ def find_pymakefile(path):
     pm.print_error('', exit_code=1)
 
 
+def find_main_packages_folder(path):
+    packages = find_packages(path)
+    packages_folders = list()
+
+    for p in packages:
+        folders = p.split('.')
+
+        if len(folders) == 1:
+            packages_folders.append(p)
+        else:
+            # packages_folders.append(reduce(os.path.join, folders))
+            pass
+
+    return packages_folders
+
+
 def create_setup(path):
 
     pm = PrettyMessaging('pymake')
     pm.print_info('Creating setup.py')
 
-    pm.print_info('Looking for Pymakefile')
+    package_path = path
 
+    pm.print_info('Looking for Pymakefile')
     pymake_path = find_pymakefile(path)
     pymakevars = json2dict(pymake_path)
-    package_path = path
-    parent_path = os.path.abspath(os.path.join(package_path, os.pardir))
-
-    pm.print_info('Package root [{0}]'.format(package_path))
 
     pm.print_separator()
     pm.print_info('Configuring setup for project [{0}]'.format(pymakevars['PROJECT_NAME']))
@@ -77,17 +98,19 @@ def create_setup(path):
     # Create setup.py
     pm.print_info('Generating setup.py')
 
-    setup_file_path = os.path.join(package_path, 'setup.py')
+    setup_file_path = os.path.join(path, 'setup.py')
     if os.path.exists(setup_file_path) and os.path.isfile(setup_file_path):
         pm.print_warning('Deleting old setup.py [{0}]'.format(setup_file_path))
-        os.rename(setup_file_path, setup_file_path[-3:] + '_old')
+        os.rename(setup_file_path, setup_file_path[:-3] + '_old.py')
 
     # Configuring requirements data
     # Create requirements file using pipreqs
 
-    FNULL = open(os.devnull, 'w')
-    pm.print_info('Looking for requirements')
-    subprocess.check_call(['pipreqs', '--force', '--ignore', 'templates', '{0}'.format(package_path)], stdout=FNULL, stderr=FNULL)
+    fnull = open(os.devnull, 'w')
+    pm.print_info('Looking for requirements with pipreqs v{0}'.format(pipreqs.__version__))
+    subprocess.check_call(['pipreqs', '--force', '--ignore', 'templates', '{0}'.format(path)],
+                          stdout=fnull,
+                          stderr=fnull)
     requirements_file_path = os.path.join(package_path, 'requirements.txt')
 
     requirements = []
@@ -103,6 +126,26 @@ def create_setup(path):
 
     # Delete requirements file
     os.remove(requirements_file_path)
+
+    # Configuring Package data
+    pm.print_info('Looking for resources')
+
+    packages_folders = find_main_packages_folder(path)
+    package_data_list = []
+
+    for p in packages_folders:
+
+        for root, directories, filenames in os.walk(os.path.join(path, p)):
+            for filename in filenames:
+                abs_path = os.path.join(root, filename)
+                common_prefix = os.path.commonprefix([os.path.join(path, p), abs_path])
+                path2add = os.path.relpath(abs_path, common_prefix)
+
+                if not isignored(path2add):
+                    package_data_list.append(path2add)
+                    pm.print_info('   - [{0}]'.format(os.path.split(path2add)[-1]))
+
+    package_data = {'': package_data_list}
 
     setup_template = pkg_resources.resource_filename('pymake', 'templates/python/setup.py')
 
@@ -121,7 +164,8 @@ def create_setup(path):
     setup_text = setup_text.replace('${AUTHOR}', pymakevars['AUTHOR'])
     setup_text = setup_text.replace('${AUTHOR_EMAIL}', pymakevars['AUTHOR_EMAIL'])
     setup_text = setup_text.replace('${PROJECT_NAME}', pymakevars['PROJECT_NAME'])
-    setup_text = setup_text.replace('${PACKAGE_REQUIREMENTS}', str(requirements))
+    setup_text = setup_text.replace('\'${PACKAGE_REQUIREMENTS}\'', str(requirements))
+    setup_text = setup_text.replace('\'${PACKAGE_DATA}\'', pformat(package_data))
 
     pm.print_info('Saving setup.py')
 
