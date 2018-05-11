@@ -19,6 +19,8 @@ LOGFILE=$DIRECTORY'/installation.log'
 echo -e "${GREEN}[Datalab Utils] ${ORANG}Updating sources${NC}"
 apt-get update >> $LOGFILE 2>$LOGFILE && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils >> $LOGFILE 2>$LOGFILE
 
+echo -e "${GREEN}[Datalab Utils] ${ORANG}Installing unixodbc-dev${NC}"
+DEBIAN_FRONTEND=noninteractive apt-get -y install unixodbc-dev >> $LOGFILE
 
 echo -e "${GREEN}[Datalab Utils] ${ORANG}Installing apt-transport-https${NC}"
 DEBIAN_FRONTEND=noninteractive apt-get -y install apt-transport-https curl >> $LOGFILE

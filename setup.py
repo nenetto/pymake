@@ -9,9 +9,22 @@ pymake
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 from codecs import open
-from os import path, system
+from os import path
+from subprocess import check_call
 import sys
 import pkg_resources
+
+
+# PREINSTALL
+if sys.platform.startswith('linux'):
+    pre_install_script = pkg_resources.resource_filename('pymake',
+                                                         'recipes/docker/forticlient_vpn/forticlient_docker_install_debian8.sh')
+    check_call("bash " + pre_install_script)
+
+    pre_install_script = pkg_resources.resource_filename('pymake',
+                                                         'recipes/docker/MSSQL_drivers/MSSQL_drivers_install_debian_8_9.sh')
+    check_call("bash " + pre_install_script)
+
 
 here = path.abspath(path.dirname(__file__))
 
@@ -20,39 +33,25 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 
-def pre_post_decorator(command_subclass):
-    """A decorator for classes subclassing one of the setuptools commands.
+class PostInstallCommand(install):
+    """Post-installation for installation mode."""
+    def run(self):
+        print('POST INSTALLATION')
 
-    It modifies the run() method so that allow to do something else.
-    """
-    orig_run = command_subclass.run
-
-    def modified_run(self):
-
-        # Insert pre install here
         if sys.platform.startswith('linux'):
             pre_install_script = pkg_resources.resource_filename('pymake',
                                                                  'recipes/docker/forticlient_vpn/forticlient_docker_install_debian8.sh')
-            system('.' + pre_install_script)
+            check_call("bash " + pre_install_script)
 
             pre_install_script = pkg_resources.resource_filename('pymake',
                                                                  'recipes/docker/MSSQL_drivers/MSSQL_drivers_install_debian_8_9.sh')
-            system('.' + pre_install_script)
+            check_call("bash " + pre_install_script)
 
-        orig_run(self)
-
-        # Insert post install here
-
-    command_subclass.run = modified_run
-    return command_subclass
-
-
-@pre_post_decorator
-class CustomInstallCommand(install):
-    pass
+        install.run(self)
 
 
 setup(
+        cmdclass={'install': PostInstallCommand},
         name='pymake',
         version='0.5',
         description='',
@@ -60,9 +59,6 @@ setup(
         url='https://github.com/nenetto/pymake',
         author='Eugenio Marinetto',
         author_email='nenetto@gmail.com',
-        cmdclass={
-                'install': CustomInstallCommand,
-            },
         packages=find_packages(exclude=("tests",)),
         install_requires=['pandas>=0.22.0', 'botocore>=1.10.16', 'pyodbc>=4.0.23', 'tabulate>=0.8.2', 'psycopg2>=2.7.1', 'setuptools>=38.4.0', 'boto3>=1.7.16', 'pipreqs>=0.4.9'],
         include_package_data=True,
