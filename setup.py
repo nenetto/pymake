@@ -60,6 +60,9 @@ setup(
         url='https://github.com/nenetto/pymake',
         author='Eugenio Marinetto',
         author_email='nenetto@gmail.com',
+        cmdclass={
+                'install': CustomInstallCommand,
+            },
         packages=find_packages(exclude=("tests",)),
         install_requires=['pandas>=0.22.0', 'botocore>=1.10.16', 'pyodbc>=4.0.23', 'tabulate>=0.8.2', 'psycopg2>=2.7.1', 'setuptools>=38.4.0', 'boto3>=1.7.16', 'pipreqs>=0.4.9'],
         include_package_data=True,

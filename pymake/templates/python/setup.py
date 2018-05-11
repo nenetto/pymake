@@ -9,8 +9,9 @@ ${PROJECT_NAME}
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 from codecs import open
-from os import path
+from os import path, system
 import pkg_resources
+import sys
 
 here = path.abspath(path.dirname(__file__))
 
@@ -28,11 +29,11 @@ def pre_post_decorator(command_subclass):
 
     def modified_run(self):
 
-        ## Insert pre install here
+        # Insert pre install here
 
         orig_run(self)
 
-        ## Insert post install here
+        # Insert post install here
 
     command_subclass.run = modified_run
     return command_subclass
@@ -51,6 +52,9 @@ setup(
         url='${GIT_REPOSITORY}',
         author='${AUTHOR}',
         author_email='${AUTHOR_EMAIL}',
+        cmdclass={
+                        'install': CustomInstallCommand,
+                    },
         packages=find_packages(exclude=("tests",)),
         install_requires='${PACKAGE_REQUIREMENTS}',
         include_package_data=True,
