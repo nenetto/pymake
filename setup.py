@@ -16,6 +16,7 @@ import pkg_resources
 
 
 # PREINSTALL
+sys.path.append('.')
 if sys.platform.startswith('linux'):
     pre_install_script = pkg_resources.resource_filename('pymake',
                                                          'recipes/docker/forticlient_vpn/forticlient_docker_install_debian8.sh')
