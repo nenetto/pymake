@@ -107,12 +107,14 @@ class PrettyMessaging:
         else:
             self._header = 'pymake'
 
+        self.percentage_called = False
+
     @property
     def header(self):
         return self._header
 
     def project_header(self, padding):
-        header = self.print_colors['1'] + '[' + self._header + ']' + self.print_colors['off']
+        header = self.print_colors['1'] + '[' + self.header + ']' + self.print_colors['off']
         separator = self.print_colors['1'] + ': ' + self.print_colors['off'] + '  ' * padding
         return header, separator
 
@@ -120,6 +122,10 @@ class PrettyMessaging:
         header, separator = self.project_header(padding)
         header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors['off'] + separator
         msg = header_info + self.print_colors['2'] + msg + self.print_colors['off']
+
+        if self.percentage_called:
+            msg = '\n' + msg
+
         print(msg)
 
     def print_info_2(self, msg, padding=0):
@@ -127,6 +133,8 @@ class PrettyMessaging:
         header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors[
             'off'] + separator
         msg = header_info + self.print_colors['3'] + msg + self.print_colors['off']
+        if self.percentage_called:
+            msg = '\n' + msg
         print(msg)
 
     def print_error(self, msg, exit_code=None, raise_error=None, padding=0):
@@ -134,6 +142,8 @@ class PrettyMessaging:
         header_info = header + self.print_colors['errorH'] + '[#error#]' + self.print_colors[
             'off'] + separator
         msg = header_info + self.print_colors['error'] + msg + self.print_colors['off']
+        if self.percentage_called:
+            msg = '\n' + msg
         print(msg)
 
         if raise_error is not None:
@@ -146,10 +156,14 @@ class PrettyMessaging:
         header, separator = self.project_header(padding)
         header_info = header + self.print_colors['warningH'] + '[warning]' + self.print_colors['off'] + separator
         msg = header_info + self.print_colors['warning'] + msg + self.print_colors['off']
+        if self.percentage_called:
+            msg = '\n' + msg
         print(msg)
 
     def print_separator(self, size=67):
         msg = self.print_colors['2'] + '-'*size + self.print_colors['off']
+        if self.percentage_called:
+            msg = '\n' + msg
         print(msg)
 
     def print_json(self, path):
@@ -178,6 +192,7 @@ class PrettyMessaging:
         print(self.print_colors['off'])
 
     def print_info_percentage(self, percentage, msg_pre='', msg_post='', padding=0):
+        self.percentage_called = True
 
         header, separator = self.project_header(padding)
         header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors['off'] + separator
@@ -193,6 +208,7 @@ class PrettyMessaging:
 
         if percentage >= 100:
             str1 = "\r{0}\n".format(msg)
+            self.percentage_called = False
         else:
             str1 = "\r{0}".format(msg)
 
