@@ -41,16 +41,34 @@ def upload2s3(file_local_path, s3_bucketname, file_remote_path):
 
 def downloads3(file_local_path, s3_bucketname, file_remote_path, verbose=True):
 
+    pm = PrettyMessaging('pymake')
     s3 = s3_resource()
+
+    if not isfiles3(s3_bucketname, file_remote_path):
+        return False
 
     try:
         s3.Bucket(s3_bucketname).download_file(file_remote_path, file_local_path)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             if verbose:
-                pm = PrettyMessaging('pymake')
                 pm.print_error('[AWS][S3] The object does not exist.')
             return False
         else:
-            raise
+            pm.print_error('[AWS][S3] Unknown error')
+            pm.print_error_2(str(e))
+            pm.print_error('', exit_code=1)
     return True
+
+
+def isfiles3(s3_bucketname, file_remote_path):
+
+    s3 = s3_resource()
+
+    result = s3.Bucket(s3_bucketname).Object(file_remote_path)
+
+    exists = False
+    if result:
+        exists = True
+
+    return exists
