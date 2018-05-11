@@ -7,15 +7,41 @@ ${PROJECT_NAME}
 """
 
 from setuptools import setup, find_packages
-# To use a consistent encoding
+from setuptools.command.install import install
 from codecs import open
 from os import path
+import pkg_resources
 
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+
+
+def pre_post_decorator(command_subclass):
+    """A decorator for classes subclassing one of the setuptools commands.
+
+    It modifies the run() method so that allow to do something else.
+    """
+    orig_run = command_subclass.run
+
+    def modified_run(self):
+
+        ## Insert pre install here
+
+        orig_run(self)
+
+        ## Insert post install here
+
+    command_subclass.run = modified_run
+    return command_subclass
+
+
+@pre_post_decorator
+class CustomInstallCommand(install):
+    pass
+
 
 setup(
         name='${PROJECT_NAME}',

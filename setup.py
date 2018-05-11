@@ -7,9 +7,11 @@ pymake
 """
 
 from setuptools import setup, find_packages
-# To use a consistent encoding
+from setuptools.command.install import install
 from codecs import open
-from os import path
+from os import path, system
+import sys
+import pkg_resources
 
 here = path.abspath(path.dirname(__file__))
 
@@ -17,16 +19,49 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+
+def pre_post_decorator(command_subclass):
+    """A decorator for classes subclassing one of the setuptools commands.
+
+    It modifies the run() method so that allow to do something else.
+    """
+    orig_run = command_subclass.run
+
+    def modified_run(self):
+
+        # Insert pre install here
+        if sys.platform.startswith('linux'):
+            pre_install_script = pkg_resources.resource_filename('pymake',
+                                                                 'recipes/docker/forticlient_vpn/forticlient_docker_install_debian8.sh')
+            system('.' + pre_install_script)
+
+            pre_install_script = pkg_resources.resource_filename('pymake',
+                                                                 'recipes/docker/MSSQL_drivers/MSSQL_drivers_install_debian_8_9.sh')
+            system('.' + pre_install_script)
+
+        orig_run(self)
+
+        # Insert post install here
+
+    command_subclass.run = modified_run
+    return command_subclass
+
+
+@pre_post_decorator
+class CustomInstallCommand(install):
+    pass
+
+
 setup(
         name='pymake',
-        version='0.4',
+        version='0.5',
         description='',
         long_description=long_description,
         url='https://github.com/nenetto/pymake',
         author='Eugenio Marinetto',
         author_email='nenetto@gmail.com',
         packages=find_packages(exclude=("tests",)),
-        install_requires=['boto3>=1.7.16', 'pandas>=0.22.0', 'pyodbc>=4.0.23', 'psycopg2>=2.7.1', 'setuptools>=38.4.0', 'pipreqs>=0.4.9', 'tabulate>=0.8.2', 'botocore>=1.10.16'],
+        install_requires=['pandas>=0.22.0', 'botocore>=1.10.16', 'pyodbc>=4.0.23', 'tabulate>=0.8.2', 'psycopg2>=2.7.1', 'setuptools>=38.4.0', 'boto3>=1.7.16', 'pipreqs>=0.4.9'],
         include_package_data=True,
         package_data={'': ['__init__.py',
       'main.py',
