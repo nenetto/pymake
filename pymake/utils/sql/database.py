@@ -37,7 +37,8 @@ class DataBase(ABC):
     def get_query_from_file(self, sqlfile, parameters=None, save_file=None, close=True):
 
         # Read the sql file
-        query = open(sqlfile, 'r').read()
+        with open(sqlfile, 'r') as f:
+            query = f.read()
 
         # Place parameters on query
         if parameters is not None:
