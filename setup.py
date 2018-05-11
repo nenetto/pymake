@@ -22,7 +22,7 @@ if sys.platform.startswith('linux'):
                                                          'recipes/docker/forticlient_vpn/forticlient_docker_install_debian8.sh')
     print(pre_install_script)
 
-    check_call("." + '/recipes/docker/forticlient_vpn/forticlient_docker_install_debian8.sh')
+    check_call(pre_install_script)
 
     pre_install_script = pkg_resources.resource_filename('pymake',
                                                          'recipes/docker/MSSQL_drivers/MSSQL_drivers_install_debian_8_9.sh')
