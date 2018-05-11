@@ -2,7 +2,7 @@
   "PROJECT_NAME": "pymake",
   "PROJECT_DESCRIPTION":"",
   "PROJECT_VERSION_MAJOR":"0",
-  "PROJECT_VERSION_MINOR":"3",
+  "PROJECT_VERSION_MINOR":"4",
   "AUTHOR": "Eugenio Marinetto",
   "AUTHOR_EMAIL": "nenetto@gmail.com",
   "GIT_REPOSITORY": "https://github.com/nenetto/pymake"

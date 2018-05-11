@@ -23,7 +23,10 @@ def main(args=None):
             print(i)
 
         if args[0] == 'create_setup':
-            create_setup(args[1])
+            remove = False
+            if args[2] == '-removeold':
+                remove = True
+            create_setup(args[1], remove)
     else:
         print('No parameters passed')
 

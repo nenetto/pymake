@@ -81,7 +81,7 @@ def find_main_packages_folder(path):
     return packages_folders
 
 
-def create_setup(path):
+def create_setup(path, remove=False):
 
     pm = PrettyMessaging('pymake')
     pm.print_info('Creating setup.py')
@@ -101,7 +101,11 @@ def create_setup(path):
     setup_file_path = os.path.join(path, 'setup.py')
     if os.path.exists(setup_file_path) and os.path.isfile(setup_file_path):
         pm.print_warning('Deleting old setup.py [{0}]'.format(setup_file_path))
-        os.rename(setup_file_path, setup_file_path[:-3] + '_old.py')
+
+        if remove:
+            os.remove(setup_file_path)
+        else:
+            os.rename(setup_file_path, setup_file_path[:-3] + '_old.py')
 
     # Configuring requirements data
     # Create requirements file using pipreqs
@@ -141,7 +145,7 @@ def create_setup(path):
                 common_prefix = os.path.commonprefix([os.path.join(path, p), abs_path])
                 path2add = os.path.relpath(abs_path, common_prefix)
 
-                if not isignored(path2add):
+                if not isignored(path2add) and 'tests/' not in path2add:
                     package_data_list.append(path2add)
                     pm.print_info('   - [{0}]'.format(os.path.split(path2add)[-1]))
 
@@ -174,3 +178,8 @@ def create_setup(path):
 
     pm.print_info('Setup.py created successfully')
     pm.print_separator()
+
+if __name__ == "__main__":
+    pm = PrettyMessaging('pymake')
+    print('Creating self setup')
+    create_setup('../../', remove=True)
