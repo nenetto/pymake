@@ -59,5 +59,5 @@ setup(
         install_requires='${PACKAGE_REQUIREMENTS}',
         include_package_data=True,
         package_data='${PACKAGE_DATA}',
-        entry_points={'console_scripts': ['${PROJECT_NAME} = ${PROJECT_NAME}.main:main']}
+        entry_points={'console_scripts': ['${ENTRY_POINT} = ${ENTRY_POINT}.main:main']}
         )
