@@ -24,11 +24,14 @@ def main(args=None):
 
         if args[0] == 'create_setup':
             remove = False
-            if args[2] == '-removeold':
-                remove = True
+            if len(args) > 2:
+                if args[2] == '-removeold':
+                    remove = True
+
             create_setup(args[1], remove)
     else:
         print('No parameters passed')
+
 
 if __name__ == "__main__":
     print('Welcome to the project [pycharm] created by [nenetto@gmail.com]')
