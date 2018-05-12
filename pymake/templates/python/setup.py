@@ -7,41 +7,21 @@ ${PROJECT_NAME}
 """
 
 from setuptools import setup, find_packages
-from setuptools.command.install import install
 from codecs import open
-from os import path, system
-import pkg_resources
+from os import path
 import sys
 
+
 here = path.abspath(path.dirname(__file__))
+
+# PRE INSTALL COMMANDS COMES HERE
+sys.path.append(here)
+
+
 
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
-
-
-def pre_post_decorator(command_subclass):
-    """A decorator for classes subclassing one of the setuptools commands.
-
-    It modifies the run() method so that allow to do something else.
-    """
-    orig_run = command_subclass.run
-
-    def modified_run(self):
-
-        # Insert pre install here
-
-        orig_run(self)
-
-        # Insert post install here
-
-    command_subclass.run = modified_run
-    return command_subclass
-
-
-@pre_post_decorator
-class CustomInstallCommand(install):
-    pass
 
 
 setup(
@@ -52,9 +32,6 @@ setup(
         url='${GIT_REPOSITORY}',
         author='${AUTHOR}',
         author_email='${AUTHOR_EMAIL}',
-        cmdclass={
-                        'install': CustomInstallCommand,
-                    },
         packages=find_packages(exclude=("tests",)),
         install_requires='${PACKAGE_REQUIREMENTS}',
         include_package_data=True,
