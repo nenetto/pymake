@@ -1,19 +1,20 @@
+"""
+pymake
+-------------------------------
+ - Eugenio Marinetto
+ - nenetto@gmail.com
+-------------------------------
+Created 10-05-2018
+"""
+
 import psycopg2
 from pymake.utils.sql.database import DataBase
-from pymake.utils.common.common_functions import read_env_var
 
 
-class Zitycar(DataBase):
+class Postgres(DataBase):
 
-    def __init__(self):
-        super().__init__()
-
-        # DB connection info
-        self._host = read_env_var('ZITYCAR_HOST')
-        self._port = read_env_var('ZITYCAR_PORT')
-        self._dbname = read_env_var('ZITYCAR_DBNAME')
-        self._user = read_env_var('ZITYCAR_USER')
-        self._pwd = read_env_var('ZITYCAR_PWD')
+    def __init__(self, host, port, dbname, user, pwd):
+        super().__init__(host, port, dbname, user, pwd)
 
     def connect(self):
 

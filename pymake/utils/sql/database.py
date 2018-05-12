@@ -1,16 +1,33 @@
+"""
+pymake
+-------------------------------
+ - Eugenio Marinetto
+ - nenetto@gmail.com
+-------------------------------
+Created 10-05-2018
+"""
+
 from abc import ABC, abstractmethod
 import pandas as pd
 from pymake.utils.common.prettymessaging import PrettyMessaging
 
+
 class DataBase(ABC):
 
-    def __init__(self):
+    def __init__(self, host, port, dbname, user, pwd, verbose=True):
+        super().__init__()
         self._connection = None
         self._connected = False
-        self._verbose = True
-        super().__init__()
+        self._verbose = verbose
 
         self.pm = PrettyMessaging('DataBase')
+
+        # Database connection info
+        self._host = host
+        self._port = port
+        self._dbname = dbname
+        self._user = user
+        self._pwd = pwd
 
     @abstractmethod
     def connect(self):

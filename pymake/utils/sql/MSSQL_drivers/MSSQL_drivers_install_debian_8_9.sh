@@ -7,7 +7,7 @@ NC='\033[0m'
 
 
 echo -e "${BLUEE}------------------------------------------------------------------------------------------------${NC}"
-echo -e "${GREEN}                                          [Datalab Utils]                                       ${NC}"
+echo -e "${GREEN}                                              [Pymake]                                          ${NC}"
 echo -e "${ORANG}                                 This scripts installs MSSQL drivers                            ${NC}"
 echo -e "${ORANG}                                  E. Marinetto (nenetto@gmail.com)                               ${NC}"
 echo -e "${BLUEE}------------------------------------------------------------------------------------------------${NC}"
@@ -65,6 +65,6 @@ echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen >> $LOGFILE
 
 echo -e "${BLUEE}------------------------------------------------------------------------------------------------${NC}"
-echo -e "${GREEN}                                        [Datalab Utils]                                         ${NC}"
+echo -e "${GREEN}                                           [Pymake]                                             ${NC}"
 echo -e "${GREEN}                                          FINISHED :D                                           ${NC}"
 echo -e "${BLUEE}------------------------------------------------------------------------------------------------${NC}"
