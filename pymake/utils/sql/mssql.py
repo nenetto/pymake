@@ -61,7 +61,8 @@ class MsSQL(DataBase):
             pm.print_info('Installing MSSQL Drivers')
 
             script = pkg_resources.resource_filename('pymake', 'utils/sql/MSSQL_drivers/MSSQL_drivers_install_debian_8_9.sh')
-            run_commands([script])
+            cmd = '/bin/bash ' + script
+            run_commands([cmd])
 
         elif sys.platform.startswith('darwin'):
 

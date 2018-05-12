@@ -50,5 +50,8 @@ class FortiClient:
         if sys.platform.startswith('linux'):
             script = pkg_resources.resource_filename('pymake',
                                                      'utils/vpn/forticlient/forticlient_docker_install_debian8.sh')
-            run_commands([script])
+
+            cmd = '/bin/bash ' + script
+
+            run_commands([cmd])
 
