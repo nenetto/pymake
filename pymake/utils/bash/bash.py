@@ -10,11 +10,13 @@ import subprocess
 from pymake.main import printer as pm
 
 
-def run_shell_command(command):
+def run_shell_command(command, wait=True):
 
+    pm.print_info('Running [{0}]'.format(command))
     session = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    stdout, stderr = session.communicate()
-    session.wait()
+    if wait:
+        stdout, stderr = session.communicate()
+        session.wait()
 
     output_lines = stdout.decode("utf-8").split('\n')
     for ol in output_lines:
