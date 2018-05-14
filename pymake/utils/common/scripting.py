@@ -9,7 +9,6 @@ Created 12-05-2018
 import pexpect
 import subprocess
 from pymake.utils.common.prettymessaging import PrettyMessaging
-import sys
 
 
 def run_commands(commands_list):
@@ -20,7 +19,7 @@ def run_commands(commands_list):
     i = 0
     for c in commands_list:
         pm.print_info('Running command [{0}]'.format(c))
-        result = subprocess.check_output(c).decode("utf-8")[:-1]
+        result = subprocess.check_output([c]).decode("utf-8")[:-1]
         i += 1
         pm.print_info_percentage(100 * i / n, 'Running', str(c))
 
