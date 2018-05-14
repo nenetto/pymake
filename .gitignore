@@ -4,3 +4,5 @@
 *.DS_Store
 /pymake/__pycache__/
 /pymake/.DS_Store
+/pymake/utils/bash/__pycache__/
+*.cpython-36.pyc
