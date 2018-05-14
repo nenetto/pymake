@@ -71,7 +71,6 @@ class MsSQL(DataBase):
                         'brew update',
                         'brew install --no-sandbox msodbcsql@13.1.9.2 mssql-tools@14.0.6.0']
 
-
             pm.print_warning('Make sure you have installed MSSQL Drivers')
             pm.print_separator()
             for c in commands:
