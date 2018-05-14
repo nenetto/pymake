@@ -13,7 +13,7 @@ import copy
 import pkg_resources
 import os
 from inspect import getmembers, isfunction
-from pymake.utils.common.prettymessaging import PrettyMessaging
+from pymake.main import printer as pm
 
 
 def json2dict(path):
@@ -27,10 +27,7 @@ def get_pymake_var(var):
     pymakefile = pkg_resources.resource_filename('pymake', 'pymakefile.json')
     pymakevars = json2dict(pymakefile)
 
-    if 'project-name' in pymakevars.keys():
-        pm = PrettyMessaging()
-    else:
-        pm = PrettyMessaging('pymake')
+    if 'project-name' not in pymakevars.keys():
         pm.print_error('Unknown var [{0}]'.format('project-name'))
         pm.print_error('Pymakefile during error:')
         pm.print_dict(pymakevars)
@@ -47,7 +44,6 @@ def get_pymake_var(var):
 
 def merge_dicts(a, b, path=None, replacement=True):
     """merges b into a"""
-    pm = PrettyMessaging()
     if path is None:
         path = []
     for key in b:
@@ -70,7 +66,9 @@ def merge_dicts(a, b, path=None, replacement=True):
     return a
 
 
-def replace_vars(text, replacement_dict={}):
+def replace_vars(text, replacement_dict=None):
+    if replacement_dict is None:
+        replacement_dict = dict()
     replaced_text = copy.deepcopy(text)
     for old, new in replacement_dict.items():
         replaced_text = replaced_text.replace(str(old), str(new))
@@ -80,7 +78,6 @@ def replace_vars(text, replacement_dict={}):
 def replace(rule, configuration):
     replacement = {}
     var_value = None
-    pm = PrettyMessaging()
 
     # Find pieces to replace in string type "{var-value}"
     for match in re.finditer('{[a-z]+(-*[a-z]*)*}', rule):
@@ -105,17 +102,18 @@ def replace(rule, configuration):
     return replaced_rule
 
 
-def applymodifier(var_value, modifiers=[]):
-    pm = PrettyMessaging()
+def applymodifier(var_value, modifiers=None):
+    if modifiers is None:
+        modifiers = list()
 
-    import pymake.utils.text_modifiers as tm
+    import pymake.utils.common.text_modifiers as tm
     allowed_modifiers_names = [f[0] for f in getmembers(tm) if isfunction(f[1])]
 
     if not isinstance(modifiers, list):
         modifiers = [modifiers]
         for m in modifiers:
 
-            import pymake.utils.text_modifiers as tm
+            import pymake.utils.common.text_modifiers as tm
 
             if m not in allowed_modifiers_names:
                 pm.print_warning('Unknown modifier [{0}] - Unchanged'.format(m))
@@ -130,6 +128,27 @@ def read_env_var(name):
     if name in os.environ:
         return os.environ[name]
     else:
-        pm = PrettyMessaging('pymake')
         pm.print_error('Environment variable [{0}] not found'.format(name), exit_code=1)
     return None
+
+def load_env_var_from_dict(envar_dict, update=True):
+
+    for k, v in envar_dict.items():
+        if isinstance(v, dict):
+            load_env_var_from_dict(v)
+        else:
+            if update and k in os.environ:
+                pm.print_warning('Updating environment variable [{0}]:[{1}]->[{2}]'.format(k, os.environ[k], v))
+                os.environ[k] = v
+            elif k not in os.environ:
+                pm.print_warning('Setting environment variable [{0}]:[{1}]'.format(k, v))
+                os.environ[k] = v
+            elif k in os.environ:
+                pm.print_warning('Found enviroment variable [{0}]:[{1}]- no replaced by new value [{2}]'.format(k, os.environ[k], v))
+
+
+
+
+def load_env_variables(configuration_file, update=True):
+    df = json2dict(configuration_file)
+    load_env_var_from_dict(df, update)

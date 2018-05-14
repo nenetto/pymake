@@ -9,8 +9,7 @@ Created 10-05-2018
 
 from abc import ABC, abstractmethod
 import pandas as pd
-from pymake.utils.common.prettymessaging import PrettyMessaging
-
+from pymake.main import printer as pm
 
 class DataBase(ABC):
 
@@ -19,8 +18,6 @@ class DataBase(ABC):
         self._connection = None
         self._connected = False
         self._verbose = verbose
-
-        self.pm = PrettyMessaging('DataBase')
 
         # Database connection info
         self._host = host
@@ -44,7 +41,8 @@ class DataBase(ABC):
         if self._connected:
             df = pd.read_sql(query, self._connection)
         else:
-            raise (Exception('[DataBase]: Data Base not connected'))
+            pm.print_error('Data Base not connected')
+            pm.print_error('Exiting', exit_code=1)
 
         if close:
             self.disconnect()

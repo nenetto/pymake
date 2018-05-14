@@ -8,7 +8,7 @@ Created 10-05-2018
 """
 
 from pymake.utils.sql.database import DataBase
-
+from pymake.main import printer as pm
 
 class MsSQL(DataBase):
 
@@ -26,34 +26,34 @@ class MsSQL(DataBase):
             try:
                 import pyodbc
             except ImportError:
-                self.pm.print_error('Package pyodbc is not installed')
+                pm.print_error('Package pyodbc is not installed')
                 try:
                     import pydockerutils
                 except ImportError:
-                    self.pm.print_error('You have installation recipes in package pydockerutils @')
-                    self.pm.print_error('  - [https://github.com/nenetto/pydockerutils]')
-                    self.pm.print_error('Exiting', exit_code=1)
+                    pm.print_error('You have installation recipes in package pydockerutils @')
+                    pm.print_error('  - [https://github.com/nenetto/pydockerutils]')
+                    pm.print_error('Exiting', exit_code=1)
 
-                self.pm.print_warning('Please, run the command install_pyodb from pydockerutils in the shell')
+                pm.print_warning('Please, run the command install_pyodb from pydockerutils in the shell')
 
 
             try:
                 self._connection = pyodbc.connect(connection_string)
             except Exception as e:
-                self.pm.print_error('Error connecting to database')
-                self.pm.print_error(str(e))
-                self.pm.print_separator()
+                pm.print_error('Error connecting to database')
+                pm.print_error(str(e))
+                pm.print_separator()
                 self._connected = False
                 return
 
             self._connected = True
 
             if self._verbose:
-                self.pm.print_info('Connection Success')
+                pm.print_info('Connection Success')
 
     def disconnect(self):
         if self._connected:
             self._connection.close()
             self._connected = False
             if self._verbose:
-                self.pm.print_info('Disconnection Success')
+                pm.print_info('Disconnection Success')

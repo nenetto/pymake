@@ -13,8 +13,8 @@ import pipreqs
 from pprint import pformat
 import pkg_resources
 from setuptools import find_packages
-from pymake.utils.common.prettymessaging import PrettyMessaging
 from pymake.utils.common.common_functions import json2dict
+from pymake.utils.common.prettymessaging import printer as pm
 
 
 def isignored(f_path):
@@ -41,8 +41,6 @@ def isignored(f_path):
 
 
 def find_pymakefile(path):
-    pm = PrettyMessaging('pymake')
-
     tested_names = ['Pymakefile.json',
                     'Pymakefile',
                     'pymakefile.json',
@@ -82,8 +80,6 @@ def find_main_packages_folder(path):
 
 
 def create_setup(path, remove=False):
-
-    pm = PrettyMessaging('pymake')
     pm.print_info('Creating setup.py')
 
     package_path = path
@@ -180,6 +176,5 @@ def create_setup(path, remove=False):
     pm.print_separator()
 
 if __name__ == "__main__":
-    pm = PrettyMessaging('pymake')
     print('Creating self setup')
     create_setup('../../', remove=True)

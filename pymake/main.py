@@ -7,8 +7,9 @@ pycharm
 Created 09-05-2018
 """
 
+from pymake.utils.common.prettymessaging import PrettyMessaging
+printer = PrettyMessaging('pymake')
 import sys
-from pymake.tools.create_setup import create_setup
 
 def main(args=None):
     """Example of entry point"""
@@ -28,6 +29,7 @@ def main(args=None):
                 if args[2] == '-removeold':
                     remove = True
 
+            from pymake.tools.create_setup import create_setup
             create_setup(args[1], remove)
     else:
         print('No parameters passed')
