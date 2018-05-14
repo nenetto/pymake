@@ -27,9 +27,14 @@ class MsSQL(DataBase):
                 import pyodbc
             except ImportError:
                 self.pm.print_error('Package pyodbc is not installed')
-                self.pm.print_error('You have installation recipes in package pydockerutils @')
-                self.pm.print_error('  - [https://github.com/nenetto/pydockerutils]')
-                self.pm.print_error('Exiting', exit_code=1)
+                try:
+                    import pydockerutils
+                except ImportError:
+                    self.pm.print_error('You have installation recipes in package pydockerutils @')
+                    self.pm.print_error('  - [https://github.com/nenetto/pydockerutils]')
+                    self.pm.print_error('Exiting', exit_code=1)
+
+                self.pm.print_warning('Please, run the command install_pyodb from pydockerutils in the shell')
 
 
             try:
