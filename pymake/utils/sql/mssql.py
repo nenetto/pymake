@@ -21,7 +21,7 @@ class MsSQL(DataBase):
         if not self._connected:
 
             if iscontainer():
-                connection_string = 'DRIVER={ODBC Driver 13 for SQL Server};'
+                connection_string = 'DRIVER={/opt/microsoft/msodbcsql/lib64/libmsodbcsql-13.1.so.9.2};'
             else:
                 connection_string = 'DRIVER={ODBC Driver 13 for SQL Server};'
             connection_string += 'SERVER={0};DATABASE={1};UID={2};PWD={3};'.format(self._host,
