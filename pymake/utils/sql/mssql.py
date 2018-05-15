@@ -9,6 +9,7 @@ Created 10-05-2018
 
 from pymake.utils.sql.database import DataBase
 from pymake.main import printer as pm
+from pymake.utils.docker.docker import iscontainer
 
 class MsSQL(DataBase):
 
@@ -18,7 +19,11 @@ class MsSQL(DataBase):
     def connect(self):
 
         if not self._connected:
-            connection_string = 'DRIVER={ODBC Driver 13 for SQL Server};'
+
+            if iscontainer():
+                connection_string = 'DRIVER={ODBC Driver 13 for SQL Server};'
+            else:
+                connection_string = 'DRIVER={ODBC Driver 13 for SQL Server};'
             connection_string += 'SERVER={0};DATABASE={1};UID={2};PWD={3};'.format(self._host,
                                                                                    self._dbname,
                                                                                    self._user,
