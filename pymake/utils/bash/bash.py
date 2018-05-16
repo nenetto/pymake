@@ -24,9 +24,9 @@ def run_shell_command(command, wait=True):
 
         if session.returncode != 0:
             e = stderr.decode("utf-8")
-            pm.print_error('Installation failed!')
+            pm.print_error('Command failed! [{0}]'.format(command))
             pm.print_info_2('Error: {0}'.format(str(e)))
-            pm.print_error('Exit', exit_code=0)
+            pm.print_error('Exit', exit_code=1)
 
         else:
             e = stderr.decode("utf-8").split('\n')
