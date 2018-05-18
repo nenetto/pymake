@@ -214,3 +214,23 @@ class PrettyMessaging:
 
         sys.stdout.write(str1)
         sys.stdout.flush()
+
+    def print_info_flush(self, msg='', wait=True, padding=0):
+        self.percentage_called = True
+
+        header, separator = self.project_header(padding)
+        header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors['off'] + separator
+
+        msgc = header_info
+        msgc += self.print_colors['2']
+        msgc += msg
+        msgc += self.print_colors['off']
+
+        if wait:
+            str1 = "\r{0}".format(msgc)
+        else:
+            str1 = "\r{0}\n".format(msgc)
+            self.percentage_called = False
+
+        sys.stdout.write(str1)
+        sys.stdout.flush()

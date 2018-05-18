@@ -9,6 +9,7 @@ Created 10-05-2018
 
 import psycopg2
 from pymake.utils.sql.database import DataBase
+from pymake.main import printer as pm
 
 
 class Postgres(DataBase):
@@ -27,10 +28,10 @@ class Postgres(DataBase):
             try:
                 self._connection = psycopg2.connect(connection_string)
             except Exception as e:
-                self.pm.print_error('Error connecting to database')
-                self.pm.print_separator()
-                self.pm.print_error(str(e))
-                self.pm.print_separator()
+                pm.print_error('Error connecting to database')
+                pm.print_separator()
+                pm.print_error(str(e))
+                pm.print_separator()
                 self._connected = False
 
             self._connected = True
