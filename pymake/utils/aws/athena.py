@@ -96,7 +96,7 @@ def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, fil
     output_location = 's3://' + '/'.join([s3_bucketname, file_remote_path]) + '/'
 
     try:
-        response = athena.start_query_execution(QueryString='MSCK REPAIR TABLE {0};'.format(athena_table),
+        _ = athena.start_query_execution(QueryString='MSCK REPAIR TABLE {0};'.format(athena_table),
                                                 QueryExecutionContext={'Database': athena_database},
                                                 ResultConfiguration={'OutputLocation': output_location,
                                                                      'EncryptionConfiguration': {
