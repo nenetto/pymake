@@ -108,4 +108,3 @@ def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, fil
         pm.print_error(err.response['Error']['Message'], exit_code=1)
     else:
         pm.print_info('Reload partitions succeed on table [{0}.{1}]'.format(athena_database, athena_table))
-        pm.print_dict(response)

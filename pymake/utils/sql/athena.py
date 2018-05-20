@@ -9,7 +9,7 @@ Created 16-05-2018
 
 from pymake.utils.sql.database import DataBase
 from pymake.main import printer as pm
-from pymake.utils.aws.athena import athena_exist
+from pymake.utils.aws.athena import athena_exist, reload_partitions_in_table
 from pymake.utils.aws.aws import check_aws_env
 import pyathena
 import os
@@ -28,6 +28,9 @@ class Athena(DataBase):
         self._remotepath = file_remote_path
 
         self._output_location = 's3://' + '/'.join([self._s3bucket, self._remotepath]) + '/'
+
+    def reload_partition(self, table_name):
+        reload_partitions_in_table(self._dbname, table_name, self._s3bucket, self._remotepath)
 
     def connect(self):
 
@@ -79,8 +82,12 @@ if __name__ == "__main__":
 
     athena = Athena('servicios_a_bordo', 'datathena', 'queries')
 
-    query = 'SELECT * FROM servicios_a_bordo.ticket_sales LIMIT 1000;'
-    df = athena.get_query(query, close=True)
+    query_parameters = {'__PATH__': '5171',
+                        '__ORIGIN__': 'VAL',
+                        '__DESTINATION__': 'MAA'}
+
+    df = athena.get_query_from_file('/Users/nenetto/work/Ferrovial/ferrovial_servicios_a_bordo/servicios_a_bordo/sql_queries/athena_dated_train.sql',
+                                    parameters=query_parameters)
 
     pm.print_pandas_df(df, 10)
 

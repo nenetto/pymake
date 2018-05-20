@@ -36,10 +36,18 @@ class DataBase(ABC):
 
     def get_query(self, query, close=True):
 
+        df = None
         self.connect()
 
         if self._connected:
-            df = pd.read_sql(query, self._connection)
+            try:
+                df = pd.read_sql(query, self._connection)
+            except Exception as e:
+                pm.print_error('Query problem')
+                pm.print_separator()
+                pm.print_error(query)
+                pm.print_separator()
+                pm.print_error(str(e), exit_code=1)
         else:
             pm.print_error('Data Base not connected')
             pm.print_error('Exiting', exit_code=1)
