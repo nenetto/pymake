@@ -147,8 +147,20 @@ def load_env_var_from_dict(envar_dict, update=True):
                 pm.print_warning('Found enviroment variable [{0}]:[{1}]- no replaced by new value [{2}]'.format(k, os.environ[k], v))
 
 
-
-
 def load_env_variables(configuration_file, update=True):
     df = json2dict(configuration_file)
     load_env_var_from_dict(df, update)
+
+
+def unload_env_var_from_dict(envar_dict):
+
+    for k, v in envar_dict.items():
+        if isinstance(v, dict):
+            unload_env_var_from_dict(v)
+        else:
+            if k in os.environ:
+                del os.environ[k]
+
+def unload_env_variables(configuration_file):
+    df = json2dict(configuration_file)
+    unload_env_var_from_dict(df)
