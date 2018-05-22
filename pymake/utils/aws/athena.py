@@ -11,18 +11,19 @@ import boto3
 from pymake.main import printer as pm
 from botocore.exceptions import ClientError
 from pymake.utils.aws.aws import check_aws_env
+from pymake.utils.common.common_functions import read_env_var
 import os
 
 
 def athena_resource():
     if check_aws_env():
-        aws_session = boto3.Session(aws_access_key_id=os.environ['AWS_KEY_ID'],
-                                    aws_secret_access_key=os.environ['AWS_SECRET_KEY'],
-                                    region_name=os.environ['AWS_REGION_NAME'])
+        aws_session = boto3.Session(aws_access_key_id=read_env_var('AWS_KEY_ID'),
+                                    aws_secret_access_key=read_env_var('AWS_SECRET_KEY'),
+                                    region_name=read_env_var('AWS_REGION_NAME'))
 
         athena = aws_session.client('athena')
     else:
-        athena = boto3.client('athena', region_name=os.environ['AWS_REGION_NAME'])
+        athena = boto3.client('athena', region_name=read_env_var('AWS_REGION_NAME'))
 
     return athena
 
