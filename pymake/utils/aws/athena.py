@@ -22,7 +22,7 @@ def athena_resource():
 
         athena = aws_session.client('athena')
     else:
-        athena = boto3.client('athena')
+        athena = boto3.client('athena', region_name=os.environ['AWS_REGION_NAME'])
 
     return athena
 

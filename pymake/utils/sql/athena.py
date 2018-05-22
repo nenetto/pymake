@@ -61,7 +61,8 @@ class Athena(DataBase):
 
 
                 try:
-                    self._connection = pyathena.connect(s3_staging_dir=self._output_location)
+                    self._connection = pyathena.connect(s3_staging_dir=self._output_location,
+                                                        region_name=os.environ['AWS_REGION_NAME'])
 
                 except Exception as e:
                     pm.print_error('Error connecting to database')
