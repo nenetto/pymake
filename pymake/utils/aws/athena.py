@@ -12,6 +12,7 @@ from pymake.main import printer as pm
 from botocore.exceptions import ClientError
 from pymake.utils.aws.aws import check_aws_env
 from pymake.utils.common.common_functions import read_env_var
+import time
 import os
 
 
@@ -128,6 +129,7 @@ def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, fil
                 if verbose:
                     pm.print_error('Query {0}'.format(current_status))
                 return None
+            time.sleep(5)
 
     except ClientError as err:
         pm.print_warning('Athena [{0}] error'.format(athena_database))
