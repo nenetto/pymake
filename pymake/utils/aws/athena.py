@@ -87,7 +87,7 @@ def athena_exist(athena_database, s3_bucketname, file_remote_path, verbose=True)
         return False
 
 
-def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, file_remote_path):
+def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, file_remote_path, verbose=True):
 
     if not athena_exist(athena_database, s3_bucketname, file_remote_path, False):
         pm.print_error('Database does not exist', exit_code=1)
@@ -95,6 +95,8 @@ def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, fil
     athena = athena_resource()
 
     output_location = 's3://' + '/'.join([s3_bucketname, file_remote_path]) + '/'
+
+    response = None
 
     try:
         response = athena.start_query_execution(QueryString='MSCK REPAIR TABLE {0};'.format(athena_table),
@@ -107,6 +109,7 @@ def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, fil
     except ClientError as err:
         pm.print_error('Reload partitions failed on table [{0}.{1}]'.format(athena_database, athena_table))
         pm.print_error(err.response['Error']['Message'], exit_code=1)
+
     try:
 
         while True:
@@ -119,7 +122,7 @@ def reload_partitions_in_table(athena_database, athena_table, s3_bucketname, fil
             elif current_status == 'SUCCEEDED':
                 if verbose:
                     pm.print_info_flush(msg='Query Status: {0}'.format(current_status), wait=False)
-                query_result = athena.get_query_results(QueryExecutionId=response['QueryExecutionId'])
+                _ = athena.get_query_results(QueryExecutionId=response['QueryExecutionId'])
                 break
             else:
                 if verbose:
