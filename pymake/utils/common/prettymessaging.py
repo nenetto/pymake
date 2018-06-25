@@ -183,9 +183,9 @@ class PrettyMessaging:
         print(self.print_colors['off'])
         self.print_separator()
 
-    def print_pandas_df(self, df, n=None):
+    def print_pandas_df(self, df, n=5):
         if n is None:
-            n = 5
+            n = df.shape[0]
 
         print(self.print_colors['2'])
         print(tabulate(df.head(n), headers='keys', tablefmt='psql'))
