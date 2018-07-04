@@ -45,14 +45,16 @@ def print_category_info(df, column, n_rows=None, sort=True):
         dfx.sort_values(by='N', inplace=True, ascending=False)
     printer.print_pandas_df(dfx, n_rows)
 
+
 if __name__ == "__main__":
     data = []
     for i in range(10):
-        data.append({'i':i,
+        data.append({'i': i,
                      'mystr': 'ThIS  is,a CompliCA;ted'})
 
     df = pandas.DataFrame(data)
     normalize_string(df, 'mystr')
 
     printer.print_pandas_df(df)
+
 
