@@ -40,7 +40,6 @@ setup(
                           'psycopg2>=2.7.1',
                           'tabulate>=0.8.2',
                           'pandas>=0.22.0',
-                          'pyodbc>=4.0.23',
                           'pyathena>=1.2.3',
                           'unidecode>=1.0.22',
                           'openpyxl>=2.5.4'],
