@@ -41,11 +41,12 @@ setup(
                           'tabulate>=0.8.2',
                           'pandas>=0.22.0',
                           'pyathena>=1.2.3',
-                          'unidecode>=1.0.22',
                           'openpyxl>=2.5.4',
                           'xlrd>=0.9.0',
                           'Unidecode>=1.0.22',
                           'matplotlib>=2.2.2'],
+        extras_require = {
+                'MSSQL-support':  ["pyodbc>=4.0.23"]},
         include_package_data=True,
         package_data={'': ['templates/docker/python/aws_push.sh',
                            'templates/docker/python/create_image.sh',
