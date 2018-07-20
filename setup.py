@@ -46,7 +46,7 @@ setup(
                           'Unidecode>=1.0.22',
                           'matplotlib>=2.2.2'],
         extras_require = {
-                'MSSQL-support':  ["pyodbc>=4.0.23"]},
+                'mssql-support':  ["pyodbc>=4.0.23"]},
         include_package_data=True,
         package_data={'': ['templates/docker/python/aws_push.sh',
                            'templates/docker/python/create_image.sh',
