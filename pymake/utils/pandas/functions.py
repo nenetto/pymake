@@ -16,6 +16,7 @@ import numpy as np
 def normalize_str(instr):
     output = re.sub(r'[^\w]', ' ', instr).strip().lower()
     output = re.sub(' +', ' ', output)
+    output = output.title()
     return output
 
 
@@ -50,7 +51,7 @@ if __name__ == "__main__":
     data = []
     for i in range(10):
         data.append({'i': i,
-                     'mystr': 'ThIS  is,a CompliCA;ted'})
+                     'mystr': 'ThIS  is,a CompliCA;ted, ,,,,,s,tr,i,ng'})
 
     df = pandas.DataFrame(data)
     normalize_string(df, 'mystr')
