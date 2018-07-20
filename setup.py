@@ -44,6 +44,7 @@ setup(
                           'unidecode>=1.0.22',
                           'openpyxl>=2.5.4',
                           'xlrd>=0.9.0',
+                          'Unidecode>=1.0.22',
                           'matplotlib>=2.2.2'],
         include_package_data=True,
         package_data={'': ['templates/docker/python/aws_push.sh',
