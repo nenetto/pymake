@@ -155,7 +155,7 @@ def fixtable(df):
     return newdf
 
 
-def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx):
+def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx, log_file):
 
     try:
         from pydqc.infer_schema import infer_schema
@@ -168,26 +168,67 @@ def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx)
         pm.print_error('', exit_code=1)
 
     # Fix table
-    df = fixtable(df)
+    try:
+        df = fixtable(df)
+    except Exception as e:
+        with open(log_file, 'a') as log:
+            log.write('Error fixing table:\n')
+            log.write(str(e))
+        pm.print_error('Error processing file:')
+        pm.print_error(str(e))
+        return
+
+    # Save in log the void columns
+    nan_columns = df.columns[df.isna().all()].tolist()
+    with open(log_file, 'a') as log:
+        log.write('Columns with all NaNs:\n')
+        for c in nan_columns:
+            log.write('  - {0}'.format(c))
+
+    # Clean df
+    clean_columns = list()
+    for c in df.columns:
+        if c not in nan_columns:
+            clean_columns.append(c)
+
+    df = df[clean_columns]
     df.to_excel(fixedtable_file_xlsx, index=False)
 
     dirpath = tempfile.mkdtemp()
 
     # Infer schema
     pm.print_info('Infering Schema')
-    infer_schema(df, fname='',
-                 output_root=dirpath,
-                 sample_size=1.0,
-                 type_threshold=0.5,
-                 n_jobs=1,
-                 base_schema=None)
 
-    shutil.copyfile(os.path.join(dirpath, 'data_schema_.xlsx'), schema_file_xlsx)
-    df_schema = get_schema(schema_file_xlsx)
+    try:
+        infer_schema(df, fname='',
+                     output_root=dirpath,
+                     sample_size=1.0,
+                     type_threshold=0.5,
+                     n_jobs=1,
+                     base_schema=None)
+
+        shutil.copyfile(os.path.join(dirpath, 'data_schema_.xlsx'), schema_file_xlsx)
+        df_schema = get_schema(schema_file_xlsx)
+    except Exception as e:
+        with open(log_file, 'a') as log:
+            log.write('Error Infering Schema:\n')
+            log.write(str(e))
+        pm.print_error('Error Infering Schema')
+        pm.print_error(str(e))
+        return
 
     pm.print_info('Generating Summary')
-    data_summary(table_schema=df_schema, table=df, output_root=dirpath, fname='', sample_size=1.0, keep_images=False)
-    shutil.copyfile(os.path.join(dirpath, 'data_summary_.xlsx'), summary_file_xlsx)
+
+    try:
+        data_summary(table_schema=df_schema, table=df, output_root=dirpath, fname='', sample_size=1.0, keep_images=False)
+        shutil.copyfile(os.path.join(dirpath, 'data_summary_.xlsx'), summary_file_xlsx)
+    except Exception as e:
+        with open(log_file, 'a') as log:
+            log.write('Error Generating Summary:\n')
+            log.write(str(e))
+        pm.print_error('Error Generating Summary')
+        pm.print_error(str(e))
+        return
 
     # Remove temp dir
     shutil.rmtree(dirpath)
