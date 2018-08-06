@@ -183,7 +183,7 @@ def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx,
     with open(log_file, 'a') as log:
         log.write('Columns with all NaNs:\n')
         for c in nan_columns:
-            log.write('  - {0}'.format(c))
+            log.write('  - {0}\n'.format(c))
 
     # Clean df
     clean_columns = list()
