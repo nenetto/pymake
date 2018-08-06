@@ -76,7 +76,9 @@ def separate_numeric_column(df, column_name, verbose=True):
 
     pm.print_info_percentage(100, 'Processed  column', padding=1)
 
-    pm.print_info('Nums: {0}'.format(n_num))
+    n_nums_no_nans = n_num-n_nans
+
+    pm.print_info('Nums: {0}'.format(n_nums_no_nans))
     pm.print_info('Nans: {0}'.format(n_nans))
     pm.print_info('Strs: {0}'.format(n_str))
     pm.print_info('Unkn: {0}'.format(n_others))
@@ -96,21 +98,27 @@ def separate_numeric_column(df, column_name, verbose=True):
 
     total_num = dfx[column_name].shape[0]
 
-    if total_num == (n_num + n_nans):
+    if total_num == (n_nums_no_nans + n_nans):
         # Numeric variable - leave as it
         pm.print_warning('Seems to be numeric, please revise')
         pass
     elif total_num == n_str:
         # Categorical variable - leave as it
         pm.print_warning('Seems to be categorical, please revise')
+        #df[column_name] = df[column_name].astype('str')
         pass
     elif total_num == n_others:
         # Unknown type or date - leave as it
         pm.print_warning('Unknown or date, please revise')
         pass
-    elif n_str > (n_num + n_nans):
+    elif n_str > (n_nums_no_nans + n_nans):
         # Categorical variable - leave as it
         pm.print_warning('Seems to be categorical, please revise')
+        #df[column_name] = df[column_name].astype('str')
+    elif (n_nums_no_nans == 0) and (n_str > 0):
+        # Categorical variable - leave as it
+        pm.print_warning('Seems to be categorical, please revise')
+        #df[column_name] = df[column_name].astype('str')
     else:
         # Mixed variable, do the split in two
         df[column_name] = dfx[column_name].copy().astype('float')
@@ -186,9 +194,13 @@ def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx,
             log.write('  - {0}\n'.format(c))
 
     # Clean df
+    nan_columns_type = list()
+    for c in nan_columns:
+        nan_columns_type.append(c + '_type')
+
     clean_columns = list()
     for c in df.columns:
-        if c not in nan_columns:
+        if (c not in nan_columns) and (c not in nan_columns_type):
             clean_columns.append(c)
 
     df = df[clean_columns]
@@ -198,6 +210,7 @@ def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx,
 
     # Infer schema
     pm.print_info('Infering Schema')
+
 
     try:
         infer_schema(df, fname='',
@@ -217,10 +230,13 @@ def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx,
         pm.print_error(str(e))
         return
 
+    pm.print_info('Schema Detected')
+
     pm.print_info('Generating Summary')
 
+    data_summary(table_schema=df_schema, table=df, output_root=dirpath, fname='', sample_size=1.0, keep_images=False)
     try:
-        data_summary(table_schema=df_schema, table=df, output_root=dirpath, fname='', sample_size=1.0, keep_images=False)
+
         shutil.copyfile(os.path.join(dirpath, 'data_summary_.xlsx'), summary_file_xlsx)
     except Exception as e:
         with open(log_file, 'a') as log:
@@ -230,5 +246,6 @@ def summary_table(df, fixedtable_file_xlsx, schema_file_xlsx, summary_file_xlsx,
         pm.print_error(str(e))
         return
 
+    pm.print_info('Summary Generated')
     # Remove temp dir
     shutil.rmtree(dirpath)
