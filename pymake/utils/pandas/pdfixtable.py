@@ -72,7 +72,6 @@ def separate_numeric_column(df, column_name, verbose=True):
             n_str += 1
         except TypeError:
             n_others += 1
-            pass # This check for timeseries and date types
 
     pm.print_info_percentage(100, 'Processed  column', padding=1)
 
@@ -101,16 +100,13 @@ def separate_numeric_column(df, column_name, verbose=True):
     if total_num == (n_nums_no_nans + n_nans):
         # Numeric variable - leave as it
         pm.print_warning('Seems to be numeric, please revise')
-        pass
     elif total_num == n_str:
         # Categorical variable - leave as it
         pm.print_warning('Seems to be categorical, please revise')
         #df[column_name] = df[column_name].astype('str')
-        pass
     elif total_num == n_others:
         # Unknown type or date - leave as it
         pm.print_warning('Unknown or date, please revise')
-        pass
     elif n_str > (n_nums_no_nans + n_nans):
         # Categorical variable - leave as it
         pm.print_warning('Seems to be categorical, please revise')
