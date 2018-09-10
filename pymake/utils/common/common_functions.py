@@ -145,15 +145,15 @@ def load_env_var_from_dict(envar_dict, prefix='', update=True):
             if update and varname in os.environ:
                 pm.print_warning('Updating environment variable [{0}]:[{1}]->[{2}]'.format(varname,
                                                                                            os.environ[varname],
-                                                                                           v))
-                os.environ[varname] = v
+                                                                                           str(v)))
+                os.environ[varname] = str(v)
             elif varname not in os.environ:
-                pm.print_info('Setting environment variable [{0}]:[{1}]'.format(varname, v))
-                os.environ[varname] = v
+                pm.print_info('Setting environment variable [{0}]:[{1}]'.format(varname, str(v)))
+                os.environ[varname] = str(v)
             elif k in os.environ:
                 pm.print_warning('Found enviroment variable [{0}]:[{1}]- no replaced by new value [{2}]'.format(varname,
                                                                                                                 os.environ[varname],
-                                                                                                                v))
+                                                                                                                str(v)))
 
 
 def load_env_variables(configuration_file, update=True):
