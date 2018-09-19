@@ -1,0 +1,9 @@
+{
+  "project-name": "pymake",
+  "project-description":"",
+  "project-version-mayor":"1",
+  "project-version-minor":"0",
+  "author": "Eugenio Marinetto",
+  "author-email": "nenetto@gmail.com",
+  "git-repository": "https://github.com/nenetto/pymake"
+}

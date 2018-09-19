@@ -1,6 +1,6 @@
 import unittest
 
-class TestCommonFunctions(unittest.TestCase):
+class TestUtilsCommonFunctions(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -9,11 +9,11 @@ class TestCommonFunctions(unittest.TestCase):
         pass
 
     def test_get_pymake_var(self):
-        from pymake.utils.common_functions import get_pymake_var
+        from pymake.utils.common.common_functions import get_pymake_var
         self.assertEqual(get_pymake_var('project-name'), 'pymake')
 
     def test_pymake_var_error(self):
-        from pymake.utils.common_functions import get_pymake_var
+        from pymake.utils.common.common_functions import get_pymake_var
 
         with self.assertRaises(SystemExit) as cm:
             get_pymake_var('non-exist')
@@ -21,7 +21,7 @@ class TestCommonFunctions(unittest.TestCase):
         self.assertEqual(cm.exception.code, 1)
 
     def test_replace_vars(self):
-        from pymake.utils.common_functions import replace_vars
+        from pymake.utils.common.common_functions import replace_vars
 
         text = '{project-name} is a text with two {vars}'
         replacement = {'{project-name}': 'TEST1',
@@ -31,7 +31,7 @@ class TestCommonFunctions(unittest.TestCase):
         self.assertEqual(expected, replace_vars(text, replacement))
 
     def test_merge_dicts_replacement(self):
-        from pymake.utils.common_functions import merge_dicts
+        from pymake.utils.common.common_functions import merge_dicts
 
         dict1 = {'test1': 'A',
                  'test2': 'AA'}
@@ -49,7 +49,7 @@ class TestCommonFunctions(unittest.TestCase):
         self.assertEqual(dictexpected, merge_dicts(dict1, dict2, True))
 
     def test_merge_dicts_no_replacement(self):
-        from pymake.utils.common_functions import merge_dicts
+        from pymake.utils.common.common_functions import merge_dicts
 
         dict1 = {'test1': 'A',
                  'test2': 'AA'}
@@ -65,7 +65,7 @@ class TestCommonFunctions(unittest.TestCase):
         self.assertEqual(dictexpected, merge_dicts(dict1, dict2, replacement=False))
 
     def test_applymodifier(self):
-        from pymake.utils.common_functions import applymodifier
+        from pymake.utils.common.common_functions import applymodifier
         text = 'PROJECT NAME 2'
         expected = 'project_name_2'
 
