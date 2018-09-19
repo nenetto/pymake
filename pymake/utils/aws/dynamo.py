@@ -40,6 +40,7 @@ def insert_dynamo(table_name, dict_data, key_name, force=True):
 
             if force:
                 pm.print_info('Forcing to rewrite [{0}:{1}]'.format(key_name, dict_data[key_name]))
+                pm.print_dict(dict_data)
 
                 _ = dynamo.put_item(TableName=table_name,
                                     Item=dict_data,

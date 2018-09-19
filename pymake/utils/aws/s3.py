@@ -73,7 +73,7 @@ def isfiles3(s3_bucketname, file_remote_path):
             # Something else has gone wrong.
             s3 = None
             pm.print_error('[AWS][S3] Unknown error')
-            pm.print_error_2(str(e))
+            pm.print_error(str(e))
             pm.print_error('', exit_code=1)
     else:
         s3 = None
