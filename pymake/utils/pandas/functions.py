@@ -6,13 +6,11 @@ pymake
 -------------------------------
 Created 29-05-2018
 """
-from __future__ import absolute_import
 import pandas
 from pymake.main import printer
 import re
 import unidecode
 import random
-from openpyxl import load_workbook
 import os
 
 
@@ -77,10 +75,11 @@ def lxml_env_set():
     return os.environ.get("OPENPYXL_LXML", "True") == "True"
 
 
+"""
 def append_df_to_excel(filename, df, sheet_name='Sheet1', startrow=None,
                        truncate_sheet=False,
                        **to_excel_kwargs):
-    """
+    
     Append a DataFrame [df] to existing Excel file [filename]
     into [sheet_name] Sheet.
     If [filename] doesn't exist, then this function will create it.
@@ -100,7 +99,7 @@ def append_df_to_excel(filename, df, sheet_name='Sheet1', startrow=None,
                         [can be dictionary]
 
     Returns: None
-    """
+    
     LXML = lxml_available() and lxml_env_set()
 
 
@@ -166,4 +165,4 @@ if __name__ == "__main__":
 
     printer.print_pandas_df(df)
 
-
+"""
