@@ -12,6 +12,7 @@ from pymake.main import printer as pm
 from pymake.utils.aws.aws import check_aws_env
 from pymake.utils.common.common_functions import read_env_var
 
+
 def s3_resource():
     if check_aws_env():
         aws_session = boto3.Session(aws_access_key_id=read_env_var('AWS_KEY_ID'),
