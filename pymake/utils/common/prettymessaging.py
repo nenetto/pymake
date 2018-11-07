@@ -235,3 +235,6 @@ class PrettyMessaging:
 
         sys.stdout.write(str1)
         sys.stdout.flush()
+
+    def flush_off(self):
+        self.percentage_called=False
