@@ -9,7 +9,7 @@ Created 09-05-2018
 import boto3
 import botocore
 from pymake.main import printer as pm
-from pymake.utils.aws.aws import check_aws_env
+from pymake.utils.aws.aws import check_aws_env, check_aws_env_profile
 from pymake.utils.common.common_functions import read_env_var
 
 
@@ -19,6 +19,10 @@ def s3_resource():
                                     aws_secret_access_key=read_env_var('AWS_SECRET_KEY'),
                                     region_name=read_env_var('AWS_REGION_NAME'))
 
+        s3 = aws_session.resource('s3')
+
+    elif check_aws_env_profile():
+        aws_session = boto3.Session(profile_name=read_env_var('AWS_PROFILE'))
         s3 = aws_session.resource('s3')
     else:
         s3 = boto3.resource('s3')
@@ -79,3 +83,24 @@ def isfiles3(s3_bucketname, file_remote_path):
     else:
         s3 = None
         return True
+
+
+def deletes3(s3_bucketname, file_remote_path):
+
+    if isfiles3(s3_bucketname, file_remote_path):
+        s3 = s3_resource()
+
+        try:
+            s3.Object(s3_bucketname, file_remote_path).delete()
+        except botocore.exceptions.ClientError as e:
+            # Something else has gone wrong.
+            s3 = None
+            pm.print_error('[AWS][S3] Unknown error')
+            pm.print_error(str(e))
+            pm.print_error('', exit_code=1)
+        else:
+            s3 = None
+            return True
+
+    else:
+        pm.print_warning('File [s3://{0}/{1}] does not exist'.format(s3_bucketname, file_remote_path))

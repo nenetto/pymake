@@ -11,7 +11,7 @@ import boto3
 import botocore
 import botocore.exceptions
 from pymake.main import printer as pm
-from pymake.utils.aws.aws import check_aws_env
+from pymake.utils.aws.aws import check_aws_env, check_aws_env_profile
 from pymake.utils.common.common_functions import read_env_var
 
 
@@ -23,6 +23,10 @@ def insert_dynamo(table_name, dict_data, key_name, force=True):
                                     aws_secret_access_key=read_env_var('AWS_SECRET_KEY'),
                                     region_name=read_env_var('AWS_REGION_NAME'))
 
+        dynamo = aws_session.client('dynamodb')
+
+    elif check_aws_env_profile():
+        aws_session = boto3.Session(profile_name=read_env_var('AWS_PROFILE'))
         dynamo = aws_session.client('dynamodb')
 
     else:

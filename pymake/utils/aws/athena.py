@@ -16,12 +16,15 @@ import time
 import os
 
 
-def athena_resource():
+def athena_resource(profile=None):
     if check_aws_env():
         aws_session = boto3.Session(aws_access_key_id=read_env_var('AWS_KEY_ID'),
                                     aws_secret_access_key=read_env_var('AWS_SECRET_KEY'),
                                     region_name=read_env_var('AWS_REGION_NAME'))
 
+        athena = aws_session.client('athena')
+    elif profile is not None:
+        aws_session = boto3.Session(profile_name=profile)
         athena = aws_session.client('athena')
     else:
         athena = boto3.client('athena', region_name=read_env_var('AWS_REGION_NAME'))

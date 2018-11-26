@@ -9,7 +9,7 @@ Created 29-05-2018
 import boto3
 from pymake.main import printer as pm
 from botocore.exceptions import ClientError
-from pymake.utils.aws.aws import check_aws_env
+from pymake.utils.aws.aws import check_aws_env, check_aws_env_profile
 from pymake.utils.common.common_functions import read_env_var
 import os
 
@@ -21,6 +21,11 @@ def sns_resource():
                                     region_name=read_env_var('AWS_REGION_NAME'))
 
         sns = aws_session.client('sns')
+
+    elif check_aws_env_profile():
+        aws_session = boto3.Session(profile_name=read_env_var('AWS_PROFILE'))
+        sns = aws_session.client('sns')
+
     else:
         sns = boto3.client('sns', region_name=read_env_var('AWS_REGION_NAME'))
 
