@@ -9,23 +9,12 @@ Created 09-05-2018
 import boto3
 import botocore
 from pymake.main import printer as pm
-from pymake.utils.aws.aws import check_aws_env, check_aws_env_profile
-from pymake.utils.common.common_functions import read_env_var
+from pymake.utils.aws.aws import getSession
 
 
 def s3_resource():
-    if check_aws_env():
-        aws_session = boto3.Session(aws_access_key_id=read_env_var('AWS_KEY_ID'),
-                                    aws_secret_access_key=read_env_var('AWS_SECRET_KEY'),
-                                    region_name=read_env_var('AWS_REGION_NAME'))
-
-        s3 = aws_session.resource('s3')
-
-    elif check_aws_env_profile():
-        aws_session = boto3.Session(profile_name=read_env_var('AWS_PROFILE'))
-        s3 = aws_session.resource('s3')
-    else:
-        s3 = boto3.resource('s3')
+    aws_session = getSession()
+    s3 = aws_session.resource('s3')
 
     return s3
 
@@ -68,7 +57,7 @@ def isfiles3(s3_bucketname, file_remote_path):
     s3 = s3_resource()
 
     try:
-        s3.Object(s3_bucketname, file_remote_path ).load()
+        s3.Object(s3_bucketname, file_remote_path).load()
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             # The object does not exist.
