@@ -44,7 +44,8 @@ setup(
                           'openpyxl>=2.5.4',
                           'xlrd>=0.9.0',
                           'Unidecode>=1.0.22',
-                          'matplotlib>=2.2.2'],
+                          'matplotlib>=2.2.2',
+                          'tabulate>=0.8.3'],
         extras_require = {
                 'mssql-support':  ["pyodbc>=4.0.23"]},
         include_package_data=True,
