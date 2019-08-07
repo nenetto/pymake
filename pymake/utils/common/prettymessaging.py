@@ -10,6 +10,7 @@ Created 09-05-2018
 from tabulate import tabulate
 from pprint import pprint
 import sys
+from sys import exit
 import json
 
 
@@ -101,13 +102,14 @@ class PrettyMessaging:
         'off': color_codes['Color_Off']
     }
 
-    def __init__(self, header_text=None):
+    def __init__(self, header_text=None, padding=0):
         if header_text is not None:
             self._header = str(header_text)
         else:
             self._header = 'pymake'
 
         self.percentage_called = False
+        self.padding = padding
 
     @property
     def header(self):
@@ -115,12 +117,12 @@ class PrettyMessaging:
 
     def project_header(self, padding):
         header = self.print_colors['1'] + '[' + self.header + ']' + self.print_colors['off']
-        separator = self.print_colors['1'] + ': ' + self.print_colors['off'] + '  ' * padding
+        separator = self.print_colors['1'] + ': ' + self.print_colors['off'] + '  ' * (padding + self.padding)
         return header, separator
 
     def print_info(self, msg, padding=0):
         header, separator = self.project_header(padding)
-        header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors['off'] + separator
+        header_info = header + self.print_colors['1'] + '[🍃]' + self.print_colors['off'] + separator
         msg = header_info + self.print_colors['2'] + msg + self.print_colors['off']
 
         if self.percentage_called:
@@ -130,7 +132,7 @@ class PrettyMessaging:
 
     def print_info_2(self, msg, padding=0):
         header, separator = self.project_header(padding)
-        header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors[
+        header_info = header + self.print_colors['1'] + '[🍃]' + self.print_colors[
             'off'] + separator
         msg = header_info + self.print_colors['3'] + msg + self.print_colors['off']
         if self.percentage_called:
@@ -139,7 +141,7 @@ class PrettyMessaging:
 
     def print_error(self, msg, exit_code=None, raise_error=None, padding=0):
         header, separator = self.project_header(padding)
-        header_info = header + self.print_colors['errorH'] + '[#error#]' + self.print_colors[
+        header_info = header + self.print_colors['errorH'] + '[🍄]' + self.print_colors[
             'off'] + separator
         msg = header_info + self.print_colors['error'] + msg + self.print_colors['off']
         if self.percentage_called:
@@ -154,7 +156,7 @@ class PrettyMessaging:
 
     def print_warning(self, msg, padding=0):
         header, separator = self.project_header(padding)
-        header_info = header + self.print_colors['warningH'] + '[warning]' + self.print_colors['off'] + separator
+        header_info = header + self.print_colors['warningH'] + '[🍂]' + self.print_colors['off'] + separator
         msg = header_info + self.print_colors['warning'] + msg + self.print_colors['off']
         if self.percentage_called:
             msg = '\n' + msg
@@ -195,7 +197,7 @@ class PrettyMessaging:
         self.percentage_called = True
 
         header, separator = self.project_header(padding)
-        header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors['off'] + separator
+        header_info = header + self.print_colors['1'] + '[🍃]' + self.print_colors['off'] + separator
 
         msg = header_info
         msg += self.print_colors['2']
@@ -219,7 +221,7 @@ class PrettyMessaging:
         self.percentage_called = True
 
         header, separator = self.project_header(padding)
-        header_info = header + self.print_colors['1'] + '[   info]' + self.print_colors['off'] + separator
+        header_info = header + self.print_colors['1'] + '[🍃]' + self.print_colors['off'] + separator
 
         msgc = header_info
         msgc += self.print_colors['2']
@@ -234,3 +236,6 @@ class PrettyMessaging:
 
         sys.stdout.write(str1)
         sys.stdout.flush()
+
+    def flush_off(self):
+        self.percentage_called=False

@@ -44,10 +44,10 @@ class Athena(DataBase):
             if check_aws_env():
 
                 try:
-                    self._connection = pyathena.connect(aws_access_key_id=os.environ['AWS_KEY_ID'],
-                                                        aws_secret_access_key=os.environ['AWS_SECRET_KEY'],
+                    self._connection = pyathena.connect(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                                                        aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
                                                         s3_staging_dir=self._output_location,
-                                                        region_name=os.environ['AWS_REGION_NAME'])
+                                                        region_name=os.environ['AWS_REGION'])
 
                 except Exception as e:
                     pm.print_error('Error connecting to database')
@@ -62,7 +62,7 @@ class Athena(DataBase):
 
                 try:
                     self._connection = pyathena.connect(s3_staging_dir=self._output_location,
-                                                        region_name=os.environ['AWS_REGION_NAME'])
+                                                        region_name=os.environ['AWS_REGION'])
 
                 except Exception as e:
                     pm.print_error('Error connecting to database')

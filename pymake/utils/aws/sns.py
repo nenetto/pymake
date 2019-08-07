@@ -9,21 +9,15 @@ Created 29-05-2018
 import boto3
 from pymake.main import printer as pm
 from botocore.exceptions import ClientError
-from pymake.utils.aws.aws import check_aws_env
+from pymake.utils.aws.aws import getSession
+from pymake.utils.aws.aws import check_aws_env, check_aws_env_profile
 from pymake.utils.common.common_functions import read_env_var
 import os
 
 
 def sns_resource():
-    if check_aws_env():
-        aws_session = boto3.Session(aws_access_key_id=read_env_var('AWS_KEY_ID'),
-                                    aws_secret_access_key=read_env_var('AWS_SECRET_KEY'),
-                                    region_name=read_env_var('AWS_REGION_NAME'))
-
-        sns = aws_session.client('sns')
-    else:
-        sns = boto3.client('sns', region_name=read_env_var('AWS_REGION_NAME'))
-
+    aws_session = getSession()
+    sns = aws_session.client('sns')
     return sns
 
 

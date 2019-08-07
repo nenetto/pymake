@@ -23,7 +23,7 @@ LOGFILE=${DIRECTORY}'/installation.log'
 #pip install awscli >> $LOGFILE
 
 echo -e "${GREEN}[AWS Support] ${ORANG}Configuring aws${NC}"
-printf "%s\n%s\neu-west-2\njson" "${AWS_KEY_ID}" "${AWS_SECRET_KEY}" | aws configure >> $LOGFILE
+printf "%s\n%s\neu-west-2\njson" "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_KEY}" | aws configure >> $LOGFILE
 
 
 echo -e "${BLUEE}------------------------------------------------------------------------------------------------${NC}"
