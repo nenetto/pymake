@@ -8,3 +8,5 @@
 *.cpython-36.pyc
 
 Icon
+
+build/
