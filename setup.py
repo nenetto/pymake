@@ -37,7 +37,6 @@ setup(
                           'botocore>=1.10.16',
                           'boto3>=1.7.16',
                           'pipreqs>=0.4.9',
-                          'psycopg2>=2.7.1',
                           'tabulate>=0.8.2',
                           'pandas>=0.22.0',
                           'pyathena>=1.2.3',
@@ -46,8 +45,10 @@ setup(
                           'Unidecode>=1.0.22',
                           'matplotlib>=2.2.2',
                           'tabulate>=0.8.3'],
-        extras_require = {
-                'mssql-support':  ["pyodbc>=4.0.23"]},
+        extras_require={
+                'mssql-support':  ["pyodbc>=4.0.23"],
+                'postgress-support': ["psycopg2>=2.7.1"]
+                         },
         include_package_data=True,
         package_data={'': ['templates/docker/python/aws_push.sh',
                            'templates/docker/python/create_image.sh',
