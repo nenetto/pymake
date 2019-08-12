@@ -10,3 +10,7 @@
 Icon
 
 build/
+
+dist/
+
+pymake\.egg-info/

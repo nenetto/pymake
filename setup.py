@@ -25,8 +25,8 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
         name='pymake',
-        version='1.0.2',
-        description='',
+        version='1.0.7',
+        description='Utils for Cloud, Printing and more eclectic stuff',
         long_description=long_description,
         url='https://github.com/nenetto/pymake',
         author='Eugenio Marinetto',
