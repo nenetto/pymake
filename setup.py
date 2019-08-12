@@ -36,7 +36,7 @@ setup(
                           'setuptools>=38.4.0',
                           'botocore>=1.10.16',
                           'boto3>=1.7.16',
-                          'pipreqs>=0.4.9',
+                          'pipreqs>=0.4.8',
                           'tabulate>=0.8.2',
                           'pandas>=0.22.0',
                           'pyathena>=1.2.3',
