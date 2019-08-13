@@ -49,6 +49,7 @@ setup(
                 'mssql-support':  ["pyodbc>=4.0.23"],
                 'postgress-support': ["psycopg2>=2.7.1"]
                          },
+        # data_files=[('templates', ['zitycomments/config/zityCommentsCategories_CRM.json'])], ## TODO: Change package_data to data_files and fix the names according to folder structure
         include_package_data=True,
         package_data={'': ['templates/docker/python/aws_push.sh',
                            'templates/docker/python/create_image.sh',
