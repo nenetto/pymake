@@ -25,7 +25,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
         name='pymake',
-        version='1.0.7',
+        version='1.0.8',
         description='Utils for Cloud, Printing and more eclectic stuff',
         long_description=long_description,
         url='https://github.com/nenetto/pymake',
@@ -36,7 +36,7 @@ setup(
                           'setuptools>=38.4.0',
                           'botocore>=1.10.16',
                           'boto3>=1.7.16',
-                          'pipreqs>=0.4.9',
+                          'pipreqs>=0.4.8',
                           'tabulate>=0.8.2',
                           'pandas>=0.22.0',
                           'pyathena>=1.2.3',
@@ -49,6 +49,7 @@ setup(
                 'mssql-support':  ["pyodbc>=4.0.23"],
                 'postgress-support': ["psycopg2>=2.7.1"]
                          },
+        # data_files=[('templates', ['zitycomments/config/zityCommentsCategories_CRM.json'])], ## TODO: Change package_data to data_files and fix the names according to folder structure
         include_package_data=True,
         package_data={'': ['templates/docker/python/aws_push.sh',
                            'templates/docker/python/create_image.sh',
