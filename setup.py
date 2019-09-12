@@ -37,14 +37,13 @@ setup(
                           'botocore>=1.10.16',
                           'boto3>=1.7.16',
                           'pipreqs>=0.4.8',
-                          'tabulate>=0.8.2',
                           'pandas>=0.22.0',
                           'pyathena>=1.2.3',
                           'openpyxl>=2.5.4',
                           'xlrd>=0.9.0',
                           'Unidecode>=1.0.22',
                           'matplotlib>=2.2.2',
-                          'tabulate>=0.8.3'],
+                          'tabulate>=0.8.1'],
         extras_require={
                 'mssql-support':  ["pyodbc>=4.0.23"],
                 'postgress-support': ["psycopg2>=2.7.1"]
