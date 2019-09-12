@@ -46,7 +46,8 @@ setup(
                           'tabulate>=0.8.1'],
         extras_require={
                 'mssql-support':  ["pyodbc>=4.0.23"],
-                'postgress-support': ["psycopg2>=2.7.1"]
+                'postgress-support': ["psycopg2>=2.7.1"],
+                'databricks-support': ["databricks-connect"]
                          },
         # data_files=[('templates', ['zitycomments/config/zityCommentsCategories_CRM.json'])], ## TODO: Change package_data to data_files and fix the names according to folder structure
         include_package_data=True,
