@@ -68,6 +68,8 @@ def parse_type(spark_type, value):
             return float(value)
         elif spark_type == 'long':
             return int(value)
+        elif spark_type == 'integer':
+            return int(value)
         else:
             return None
     except:
